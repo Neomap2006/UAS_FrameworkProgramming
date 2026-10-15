@@ -3,11 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'LP3I College') }} - Portal Akademik</title>
+
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-slate-50 text-slate-800">
     <div class="min-h-screen flex flex-col">
 
         {{-- ====== HEADER / NAVBAR ATAS ====== --}}
@@ -17,93 +21,174 @@
         <div class="flex flex-1">
 
             {{-- SIDEBAR KIRI --}}
-            <aside class="w-64 bg-white border-r shadow-sm overflow-y-auto">
-                <nav class="p-4 space-y-1">
+            <aside class="w-64 bg-white border-r border-slate-200 shadow-xs flex flex-col justify-between overflow-y-auto">
+                <nav class="p-4 space-y-6">
 
                     @if (Auth::check() && Auth::user()->role === 'admin')
 
-                        <a href="{{ route('dashboard') }}"
-                           class="block px-4 py-2 rounded hover:bg-gray-200 transition {{ request()->routeIs('dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
-                            🏠 Dashboard
-                        </a>
+                        {{-- GROUP 1: MENU UTAMA --}}
+                        <div>
+                            <div class="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                Menu Akademik
+                            </div>
 
-                        <a href="{{ route('mahasiswa.index') }}"
-                           class="block px-4 py-2 rounded hover:bg-gray-200 transition {{ request()->routeIs('mahasiswa.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            👥 Mahasiswa
-                        </a>
-
-                        <a href="{{ route('ruangan.index') }}"
-                           class="block px-4 py-2 rounded hover:bg-gray-200 transition {{ request()->routeIs('ruangan.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            🏢 Ruangan
-                        </a>
-
-                        <a href="{{ route('matkul.index') }}"
-                           class="block px-4 py-2 rounded hover:bg-gray-200 transition {{ request()->routeIs('matkul.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            📚 Mata Kuliah
-                        </a>
-
-                        <a href="{{ route('dosen.index') }}"
-                           class="block px-4 py-2 rounded hover:bg-gray-200 transition {{ request()->routeIs('dosen.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            👨‍🏫 Dosen
-                        </a>
-
-                        <a href="{{ route('admin.ekyc.index') }}"
-                           class="block px-4 py-2 rounded hover:bg-gray-200 transition {{ request()->routeIs('admin.ekyc.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                            ✅ eKYC Registration
-                        </a>
-
-                        {{-- ==== LANDING PAGE CMS GROUP ==== --}}
-                        <div x-data="{ open: {{ request()->routeIs('admin.landing.*') ? 'true' : 'false' }} }"
-                             class="mt-6 border-t pt-4">
-
-                            <button @click="open = !open"
-                                    class="w-full flex items-center justify-between px-4 py-2 rounded hover:bg-gray-200 transition font-medium
-                                           {{ request()->routeIs('admin.landing.*') ? 'bg-gray-200' : '' }}">
-                                <span>📰 Landing Page CMS</span>
-                                <svg x-show="!open" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                                <svg x-show="open" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <div x-show="open" x-transition class="mt-2 pl-6 space-y-1">
-                                <a href="{{ route('admin.landing.settings.index') }}"
-                                   class="block px-4 py-2 rounded hover:bg-indigo-100 transition {{ request()->routeIs('admin.landing.settings.*') ? 'bg-indigo-100 text-indigo-700 font-medium' : 'text-gray-700' }}">
-                                    ⚙️ Settings
+                            <div class="space-y-1">
+                                <a href="{{ route('dashboard') }}"
+                                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span class="text-lg">🏠</span>
+                                    <span>Dashboard</span>
                                 </a>
 
-                                <a href="{{ route('admin.landing.navigation.index') }}"
-                                   class="block px-4 py-2 rounded hover:bg-indigo-100 transition {{ request()->routeIs('admin.landing.navigation.*') ? 'bg-indigo-100 text-indigo-700 font-medium' : 'text-gray-700' }}">
-                                    📑 Menu Navigasi
+                                <a href="{{ route('mahasiswa.index') }}"
+                                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('mahasiswa.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span class="text-lg">👥</span>
+                                    <span>Mahasiswa</span>
                                 </a>
 
-                                <a href="{{ route('admin.landing.programs.index') }}"
-                                   class="block px-4 py-2 rounded hover:bg-indigo-100 transition {{ request()->routeIs('admin.landing.programs.*') ? 'bg-indigo-100 text-indigo-700 font-medium' : 'text-gray-700' }}">
-                                    🎓 Program Studi
+                                <a href="{{ route('ruangan.index') }}"
+                                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('ruangan.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span class="text-lg">🏢</span>
+                                    <span>Ruangan</span>
                                 </a>
 
-                                <a href="{{ route('admin.landing.footer.index') }}"
-                                   class="block px-4 py-2 rounded hover:bg-indigo-100 transition {{ request()->routeIs('admin.landing.footer.*') ? 'bg-indigo-100 text-indigo-700 font-medium' : 'text-gray-700' }}">
-                                    📄 Footer
+                                <a href="{{ route('matkul.index') }}"
+                                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('matkul.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span class="text-lg">📚</span>
+                                    <span>Mata Kuliah</span>
                                 </a>
 
-                                <a href="{{ route('admin.landing.tentang.index') }}"
-                                   class="block px-4 py-2 rounded hover:bg-indigo-100 transition {{ request()->routeIs('admin.landing.tentang.*') ? 'bg-indigo-100 text-indigo-700 font-medium' : 'text-gray-700' }}">
-                                    📖 Kelola Tentang
+                                <a href="{{ route('dosen.index') }}"
+                                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('dosen.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span class="text-lg">👨‍🏫</span>
+                                    <span>Dosen</span>
                                 </a>
                             </div>
                         </div>
 
+                        {{-- GROUP 2: VERIFIKASI PMB --}}
+                        <div>
+                            <div class="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                Pendaftaran & eKYC
+                            </div>
+
+                            <div class="space-y-1">
+                                <a href="{{ route('admin.ekyc.index') }}"
+                                   class="flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('admin.ekyc.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-lg">✅</span>
+                                        <span>eKYC Mahasiswa</span>
+                                    </div>
+                                    @php
+                                        $pendingCount = \App\Models\EkycRegistration::where('status', 'submitted')->count();
+                                    @endphp
+                                    @if($pendingCount > 0)
+                                        <span class="px-2 py-0.5 text-xs font-bold rounded-full {{ request()->routeIs('admin.ekyc.*') ? 'bg-white text-blue-700' : 'bg-amber-100 text-amber-700' }}">
+                                            {{ $pendingCount }}
+                                        </span>
+                                    @endif
+                                </a>
+                            </div>
+                        </div>
+
+                        {{-- GROUP 3: LANDING PAGE CMS --}}
+                        <div x-data="{ open: {{ request()->routeIs('admin.landing.*') ? 'true' : 'false' }} }"
+                             class="pt-2">
+
+                            <div class="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                Landing Page CMS
+                            </div>
+
+                            <button @click="open = !open"
+                                    class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition font-medium {{ request()->routeIs('admin.landing.*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600' }}">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-lg">📰</span>
+                                    <span>Kelola Website</span>
+                                </div>
+                                <svg :class="open ? 'rotate-180' : ''" class="h-4 w-4 text-slate-400 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <div x-show="open" x-transition class="mt-1 pl-4 space-y-1">
+                                <a href="{{ route('admin.landing.settings.index') }}"
+                                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition {{ request()->routeIs('admin.landing.settings.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span>⚙️</span>
+                                    <span>Pengaturan Hero</span>
+                                </a>
+
+                                <a href="{{ route('admin.landing.navigation.index') }}"
+                                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition {{ request()->routeIs('admin.landing.navigation.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span>📑</span>
+                                    <span>Menu Navigasi</span>
+                                </a>
+
+                                <a href="{{ route('admin.landing.programs.index') }}"
+                                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition {{ request()->routeIs('admin.landing.programs.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span>🎓</span>
+                                    <span>Program Studi</span>
+                                </a>
+
+                                <a href="{{ route('admin.landing.footer.index') }}"
+                                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition {{ request()->routeIs('admin.landing.footer.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span>📄</span>
+                                    <span>Footer Links</span>
+                                </a>
+
+                                <a href="{{ route('admin.landing.tentang.index') }}"
+                                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition {{ request()->routeIs('admin.landing.tentang.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
+                                    <span>📖</span>
+                                    <span>Profil Tentang</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    @else
+                        {{-- Menu untuk Calon Mahasiswa / User Biasa --}}
+                        <div>
+                            <div class="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                                Pendaftaran
+                            </div>
+                            <div class="space-y-1">
+                                <a href="{{ route('ekyc.step1') }}"
+                                   class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-semibold shadow-xs">
+                                    <span>📝</span>
+                                    <span>Formulir eKYC</span>
+                                </a>
+                            </div>
+                        </div>
                     @endif
                 </nav>
+
+                {{-- SIDEBAR FOOTER / INFO --}}
+                <div class="p-4 border-t border-slate-200 bg-slate-50/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span class="text-xs text-slate-500 font-medium">Sistem Berjalan Aktif</span>
+                    </div>
+                </div>
             </aside>
 
             {{-- KONTEN UTAMA --}}
-            <main class="flex-1 p-8 bg-gray-50">
-                {{-- Flash Message (opsional, kalau pakai session success) --}}
-                
+            <main class="flex-1 p-6 lg:p-8 bg-slate-50 overflow-x-hidden">
+                {{-- Flash Message Success --}}
+                @if (session('success'))
+                    <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">✅</span>
+                            <span class="font-medium text-sm">{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Flash Message Error --}}
+                @if (session('error'))
+                    <div class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">⚠️</span>
+                            <span class="font-medium text-sm">{{ session('error') }}</span>
+                        </div>
+                    </div>
+                @endif
 
                 {{-- Konten dari child view --}}
                 {{ $slot ?? '' }}

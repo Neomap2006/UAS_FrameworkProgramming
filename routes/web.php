@@ -23,7 +23,13 @@ Route::get('/', [LandingController::class, 'index'])->name('home');
 
 // Dashboard (setelah login)
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalMahasiswa = \App\Models\Mahasiswa::count();
+    $totalDosen = \App\Models\Dosen::count();
+    $totalMatkul = \App\Models\Matkul::count();
+    $totalRuangan = \App\Models\Ruangan::count();
+    $totalEkyc = \App\Models\EkycRegistration::count();
+    $pendingEkyc = \App\Models\EkycRegistration::where('status', 'submitted')->count();
+    return view('dashboard', compact('totalMahasiswa', 'totalDosen', 'totalMatkul', 'totalRuangan', 'totalEkyc', 'pendingEkyc'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
