@@ -13,43 +13,44 @@ class RuanganController extends Controller
         return view('ruangan.index', compact('data'));
     }
 
-    public function create()
-    {
-        return view('ruangan.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([
-            'kode' => 'required|unique:ruangan',
-            'nama' => 'required',
-            'kapasitas' => 'required|integer',
+            'kode' => 'required|string|max:50|unique:ruangan,kode',
+            'nama' => 'required|string|max:255',
+            'kapasitas' => 'required|integer|min:1',
         ]);
 
-        Ruangan::create($request->only('kode','nama','kapasitas'));
-        return redirect()->route('ruangan.index')->with('success','Ruangan berhasil ditambahkan.');
+        Ruangan::create($request->only('kode', 'nama', 'kapasitas'));
+        return redirect()->back()->with('success', 'Ruangan berhasil ditambahkan!');
     }
 
-    public function edit(Ruangan $ruangan)
+    public function edit($id)
     {
+        $ruangan = Ruangan::findOrFail($id);
         return view('ruangan.edit', compact('ruangan'));
     }
 
-    public function update(Request $request, Ruangan $ruangan)
+    public function update(Request $request, $id)
     {
+        $ruangan = Ruangan::findOrFail($id);
+        
         $request->validate([
-            'kode' => 'required|unique:ruangan,kode,'.$ruangan->id,
-            'nama' => 'required',
-            'kapasitas' => 'required|integer',
+            'kode' => 'required|string|max:50|unique:ruangan,kode,' . $ruangan->id,
+            'nama' => 'required|string|max:255',
+            'kapasitas' => 'required|integer|min:1',
         ]);
 
-        $ruangan->update($request->only('kode','nama','kapasitas'));
-        return redirect()->route('ruangan.index')->with('success','Ruangan berhasil diperbarui.');
+        $ruangan->update($request->only('kode', 'nama', 'kapasitas'));
+
+        return redirect()->route('ruangan.index')->with('success', 'Ruangan berhasil diperbarui');
     }
 
-    public function destroy(Ruangan $ruangan)
+    public function destroy($id)
     {
+        $ruangan = Ruangan::findOrFail($id);
         $ruangan->delete();
-        return redirect()->route('ruangan.index')->with('success','Ruangan berhasil dihapus.');
+
+        return redirect()->route('ruangan.index')->with('success', 'Ruangan berhasil dihapus');
     }
 }

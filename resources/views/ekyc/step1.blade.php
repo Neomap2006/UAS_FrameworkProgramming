@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow mt-8">
-        <h2 class="text-xl font-semibold mb-4">E-KYC - Langkah 1: Data Pribadi</h2>
+        <h2 class="text-xl font-semibold mb-4 text-center">E-KYC - Langkah 1: Data Pribadi</h2>
 
         @if (session('success'))
             <div class="bg-green-100 text-green-700 p-3 mb-4 rounded">
@@ -18,27 +18,27 @@
             </div>
         @endif
 
-        <form action="{{ route('ekyc.storeStep1') }}" method="POST">
+        <form action="{{ route('ekyc.step1.store') }}" method="POST">
             @csrf
-
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
-                <input type="text" name="nama" value="{{ old('nama', $ekyc->nama ?? '') }}" class="w-full border-gray-300 rounded-md p-2">
+                <input type="text" name="nama" value="{{ old('nama', $ekyc->nama ?? '') }}"
+                    class="w-full border-gray-300 rounded-md p-2">
             </div>
-
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">NIK</label>
-                <input type="text" name="nik" value="{{ old('nik', $ekyc->nik ?? '') }}" class="w-full border-gray-300 rounded-md p-2">
+                <input type="number" name="nik"  maxlength="16"  inputmode="numeric" value="{{ old('nik', $ekyc->nik ?? '') }}"
+                    class="w-full border-gray-300 rounded-md p-2">
             </div>
-
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $ekyc->tanggal_lahir ?? '') }}" class="w-full border-gray-300 rounded-md p-2">
+                <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $ekyc->tanggal_lahir ?? '') }}"
+                    class="w-full border-gray-300 rounded-md p-2">
             </div>
-
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Alamat</label>
-                <textarea name="alamat" rows="3" class="w-full border-gray-300 rounded-md p-2">{{ old('alamat', $ekyc->alamat ?? '') }}</textarea>
+                <textarea name="alamat" rows="3"
+                    class="w-full border-gray-300 rounded-md p-2">{{ old('alamat', $ekyc->alamat ?? '') }}</textarea>
             </div>
 
             <div class="flex justify-end">
@@ -49,4 +49,3 @@
         </form>
     </div>
 </x-app-layout>
-

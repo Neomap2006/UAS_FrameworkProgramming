@@ -7,30 +7,23 @@ use Illuminate\Http\Request;
 
 class MatkulController extends Controller
 {
-    /**
-     * Tampilkan daftar mata kuliah.
-     */
     public function index()
     {
         $data = Matkul::all();
         return view('matkul.index', compact('data'));
     }
 
-    /**
-     * Simpan mata kuliah baru.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:100',
-            'kode' => 'required|string|max:50|unique:matkul,kode',
-            'sks'  => 'required|integer|min:1|max:6',
+            'nama' => 'required|string|max:255',
+            'kode'        => 'required|string|max:50|unique:matkul,kode',
+            'sks'         => 'required|integer|min:1',
         ]);
 
-        Matkul::create($request->only(['nama','kode','sks']));
+        Matkul::create($request->only('nama', 'kode', 'sks'));
 
-        return redirect()->route('matkul.index')
-                         ->with('success', 'Matkul berhasil ditambahkan.');
+        return redirect()->route('matkul.index')->with('success', 'Matkul berhasil ditambahkan');
     }
 
     /**
@@ -47,27 +40,23 @@ class MatkulController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $matkul = Matkul::findOrFail($id);
-
         $request->validate([
-            'nama' => 'required|string|max:100',
-            'kode' => 'required|string|max:50|unique:matkul,kode,' . $matkul->id,
-            'sks'  => 'required|integer|min:1|max:6',
+            'nama' => 'required|string|max:255',
+            'kode'        => 'required|string|max:50|unique:matkul,kode,' . $id,
+            'sks'         => 'required|integer|min:1',
         ]);
 
-        $matkul->update($request->only(['nama','kode','sks']));
+        $matkul = Matkul::findOrFail($id);
+        $matkul->update($request->only('nama', 'kode', 'sks'));
 
-        return redirect()->route('matkul.index')
-                         ->with('success', 'Data matkul berhasil diupdate.');
+        return redirect()->route('matkul.index')->with('success', 'Data berhasil diperbarui');
     }
 
-    /**
-     * Hapus matkul.
-     */
     public function destroy($id)
     {
-        Matkul::destroy($id);
-        return redirect()->route('matkul.index')
-                         ->with('success', 'Matkul berhasil dihapus.');
+        $matkul = Matkul::findOrFail($id);
+        $matkul->delete();
+
+        return redirect()->route('matkul.index')->with('success', 'Matkul berhasil dihapus');
     }
 }

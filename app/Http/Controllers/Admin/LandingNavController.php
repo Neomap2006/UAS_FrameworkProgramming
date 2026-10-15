@@ -8,47 +8,48 @@ use Illuminate\Http\Request;
 
 class LandingNavController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         $items = LandingNavLink::orderBy('position')->get();
         return view('admin.landing.nav.index', compact('items'));
     }
 
-    public function create()
-    {
+    public function create() {
         return view('admin.landing.nav.create');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'label' => 'required',
-            'url' => 'required',
+            'label' => 'required|string|max:255',
+            'url' => 'required|url|max:255',
             'position' => 'required|integer',
+            'status' => 'nullable|boolean',
         ]);
 
-        LandingNavLink::create($request->all());
-        return redirect()->route('admin.landing.navigation.index')->with('success', 'Menu created');
+        LandingNavLink::create($request->only(['label', 'url', 'position', 'status']));
+        return redirect()->route('admin.landing.nav.index')->with('success', 'Menu Created Successfully.');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $item = LandingNavLink::findOrFail($id);
         return view('admin.landing.nav.edit', compact('item'));
     }
 
     public function update(Request $request, $id)
     {
-        $item = LandingNavLink::findOrFail($id);
-        $item->update($request->all());
+        $request->validate([
+            'label' => 'required|string|max:255',
+            'url' => 'required|url|max:255',
+            'position' => 'required|integer',
+            'status' => 'nullable|boolean',
+        ]);
 
-        return redirect()->route('admin.landing.navigation.index')->with('success', 'Menu updated');
+        $item = LandingNavLink::findOrFail($id);
+        $item->update($request->only(['label', 'url', 'position', 'status']));
+        return redirect()->route('admin.landing.nav.index')->with('success', 'Menu Updated Successfully.');
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         LandingNavLink::destroy($id);
-        return back()->with('success', 'Menu deleted');
+        return back()->with('success', 'Menu Deleted Successfully.');
     }
 }
-

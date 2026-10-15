@@ -16,15 +16,17 @@ class LandingProgram extends Model
         'description',
         'icon',
         'position',
-        'status',
+        'image',
+        'status'
     ];
+
 
     protected $casts = [
         'position' => 'integer',
         'status' => 'boolean',
     ];
 
-    // Scope helper
+    // scoper helper
     public function scopeActive($query)
     {
         return $query->where('status', true);

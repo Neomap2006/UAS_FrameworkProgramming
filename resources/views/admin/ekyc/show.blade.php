@@ -82,7 +82,7 @@
 
             <div class="space-y-3">
                 @foreach ([
-                    'Alamat Domisili' => $data->alamatDomisili,
+                    'Alamat Domisili' => $data->alamat_domisili,
                     'Provinsi' => $data->provinsi,
                     'Kota' => $data->kota,
                     'Kecamatan' => $data->kecamatan,

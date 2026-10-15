@@ -10,8 +10,8 @@ class LandingFooterLink extends Model
 
     protected $fillable = [
         'label',
-        'url',
         'group',
+        'url',
         'position',
         'status',
     ];
@@ -21,6 +21,6 @@ class LandingFooterLink extends Model
         'status' => 'boolean',
     ];
 
-    public function scopeActive($q) { return $q->where('status', true); }
-    public function scopeOrdered($q) { return $q->orderBy('position'); }
+    public function scopeActive($q){return $q->where('status', true);}
+    public function scopeOrdered($q){return $q->orderBy('position');}
 }

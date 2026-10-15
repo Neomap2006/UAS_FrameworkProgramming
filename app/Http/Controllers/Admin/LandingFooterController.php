@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LandingFooterLink;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LandingFooterController extends Controller
 {
@@ -31,22 +32,32 @@ class LandingFooterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'label' => 'required|string|max:100',
-            'url'   => 'nullable|url|max:255',
-            'status'=> 'required|boolean'
+            'label' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'position' => 'nullable|integer|min:1',
+            'status' => 'required|boolean',
         ]);
 
-        $position = LandingFooterLink::max('position') + 1;
+        DB::transaction(function() use ($request) {
 
-        LandingFooterLink::create([
-            'label'    => $request->label,
-            'url'      => $request->url,
-            'position' => $position,
-            'status'   => $request->status,
-        ]);
+            // Jika posisi tidak diisi, otomatis max+1
+            $newPos = $request->position ?? (LandingFooterLink::max('position') + 1);
+
+            // Geser semua link yang posisinya >= newPos turun
+            LandingFooterLink::where('position', '>=', $newPos)
+                ->increment('position');
+
+            // Tambah link baru
+            LandingFooterLink::create([
+                'label' => $request->label,
+                'url' => $request->url,
+                'position' => $newPos,
+                'status' => $request->status,
+            ]);
+        });
 
         return redirect()->route('admin.landing.footer.index')
-            ->with('success', 'Footer link berhasil ditambahkan.');
+            ->with('success', 'Footer link added.');
     }
 
     /**
@@ -64,20 +75,41 @@ class LandingFooterController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'label'  => 'required|string|max:100',
-            'url'    => 'nullable|max:255',
+            'label' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'position' => 'required|integer|min:1',
             'status' => 'required|boolean',
         ]);
 
-        $footer = LandingFooterLink::findOrFail($id);
-        $footer->update([
-            'label'    => $request->label,
-            'url'      => $request->url,
-            'status'   => $request->status,
-        ]);
+        DB::transaction(function() use ($request, $id) {
+            $footer = LandingFooterLink::findOrFail($id);
+            $oldPos = $footer->position;
+            $newPos = $request->position;
+
+            // 1. Jika posisi berubah
+            if ($oldPos != $newPos) {
+                if ($newPos > $oldPos) {
+                    // Geser semua link yang posisinya di antara oldPos+1 dan newPos turun
+                    LandingFooterLink::whereBetween('position', [$oldPos + 1, $newPos])
+                        ->decrement('position');
+                } else {
+                    // Geser semua link yang posisinya di antara newPos dan oldPos-1 naik
+                    LandingFooterLink::whereBetween('position', [$newPos, $oldPos - 1])
+                        ->increment('position');
+                }
+            }
+
+            // 2. Update link dengan data baru
+            $footer->update([
+                'label' => $request->label,
+                'url' => $request->url,
+                'position' => $newPos,
+                'status' => $request->status,
+            ]);
+        });
 
         return redirect()->route('admin.landing.footer.index')
-            ->with('success', 'Footer link berhasil diperbarui.');
+            ->with('success', 'Footer link updated.');
     }
 
     /**
@@ -87,9 +119,8 @@ class LandingFooterController extends Controller
     {
         $footer = LandingFooterLink::findOrFail($id);
         $footer->delete();
-
         return redirect()->route('admin.landing.footer.index')
-            ->with('success', 'Footer link berhasil dihapus.');
+            ->with('success', 'Footer link deleted.');
     }
 
     /**
@@ -97,12 +128,17 @@ class LandingFooterController extends Controller
      */
     public function reorder(Request $request)
     {
+        $request->validate([
+            'order' => 'required|array',
+            'order.*.id' => 'required|exists:landing_footer_links,id',
+            'order.*.position' => 'required|integer|min:1',
+        ]);
+
         foreach ($request->order as $order) {
             LandingFooterLink::where('id', $order['id'])
                 ->update(['position' => $order['position']]);
         }
-
-        return response()->json(['message' => 'Urutan footer berhasil diperbarui']);
+        return response()->json(['message' => 'Urutan footer berhasil diperbaharui.']);
     }
 
     /**
@@ -115,6 +151,6 @@ class LandingFooterController extends Controller
         $footer->save();
 
         return redirect()->route('admin.landing.footer.index')
-            ->with('success', 'Status footer berhasil diperbarui.');
+            ->with('success', 'Footer status updated.');
     }
 }

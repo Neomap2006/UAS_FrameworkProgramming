@@ -22,16 +22,16 @@ class DosenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:100',
-            'nid'  => 'required|string|max:50|unique:dosen,nid',
-            'alamat' => 'nullable|string|max:255',
+            'nama'       => 'required|string|max:100',
+            'nid'        => 'required|string|max:50|unique:dosen,nid',
+            'alamat'     => 'nullable|string|max:255',
             'mata_kuliah' => 'nullable|string|max:100',
         ]);
 
         Dosen::create($request->only(['nama','nid','alamat','mata_kuliah']));
 
         return redirect()->route('dosen.index')
-                         ->with('success', 'Dosen berhasil ditambahkan.');
+                        ->with('success', 'Dosen berhasil ditambahkan.');
     }
 
     /**
@@ -51,16 +51,16 @@ class DosenController extends Controller
         $dosen = Dosen::findOrFail($id);
 
         $request->validate([
-            'nama' => 'required|string|max:100',
-            'nid'  => 'required|string|max:50|unique:dosen,nid,' . $dosen->id,
-            'alamat' => 'nullable|string|max:255',
+            'nama'       => 'required|string|max:100',
+            'nid'        => 'required|string|max:50|unique:dosen,nid,' . $dosen->id,
+            'alamat'     => 'nullable|string|max:255',
             'mata_kuliah' => 'nullable|string|max:100',
         ]);
 
         $dosen->update($request->only(['nama','nid','alamat','mata_kuliah']));
 
         return redirect()->route('dosen.index')
-                         ->with('success', 'Data dosen berhasil diupdate.');
+                        ->with('success', 'Data dosen berhasil diupdate.');
     }
 
     /**
@@ -70,6 +70,6 @@ class DosenController extends Controller
     {
         Dosen::destroy($id);
         return redirect()->route('dosen.index')
-                         ->with('success', 'Dosen berhasil dihapus.');
+                        ->with('success', 'Dosen berhasil dihapus.');
     }
 }

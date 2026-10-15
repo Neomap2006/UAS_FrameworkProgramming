@@ -24,7 +24,7 @@
                             <h3 class="font-semibold text-lg">Landing Settings</h3>
 
                             {{-- **Tambah Button** --}}
-                            <button 
+                            <button
                                 @click="setting={key:'',value:'',type:'text',status:1}; open=true"
                                 class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                             >
@@ -49,12 +49,11 @@
                                         <td class="px-3 py-2 font-medium">{{ $setting->key }}</td>
 
                                         <td class="px-3 py-2">
-                                            @if($setting->type === 'image')
-                                                <img src="{{ asset('uploads/' . $setting->value) }}"
-                                                     class="h-16 rounded shadow">
+                                            @if($setting->type === 'image' || $setting->key === 'hero_image')
+                                                <img src="{{ str_contains($setting->value, 'uploads/') ? asset($setting->value) : asset('storage/' . $setting->value) }}" class="h-16 rounded shadow">
                                             @elseif($setting->type === 'json')
                                                 <pre class="bg-gray-100 p-2 rounded text-xs">
-{{ json_encode(json_decode($setting->value, true), JSON_PRETTY_PRINT) }}
+                                                    {{ json_encode(json_decode($setting->value, true), JSON_PRETTY_PRINT) }}
                                                 </pre>
                                             @else
                                                 {{ Str::limit($setting->value, 60) }}
@@ -70,7 +69,7 @@
                                         </td>
 
                                         <td class="px-3 py-2 text-center">
-                                            <button 
+                                            <button
                                                 class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
                                                 @click="open=true; setting={{ $setting->toJson() }}"
                                             >
@@ -89,17 +88,17 @@
         </div>
 
         {{-- MODAL --}}
-        <div 
+        <div
             x-show="open"
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40"
             x-transition >
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl w-full max-w-md shadow-2xl" @click.away="open=false">
 
 
-                <h2 class="text-xl font-semibold mb-4" 
+                <h2 class="text-xl font-semibold mb-4"
                     x-text="setting.id ? 'Edit Setting' : 'Tambah Setting'"></h2>
 
-                <form method="POST" :action="setting.id ? '/admin/landing/settings/' + setting.id : '{{ route('admin.landing.settings.store') }}'" 
+                <form method="POST" :action="setting.id ? '/admin/landing/settings/' + setting.id : '{{ route('admin.landing.settings.store') }}'"
                       enctype="multipart/form-data">
 
                     @csrf
@@ -109,7 +108,7 @@
 
                     <div class="mb-4">
                         <label class="block font-medium mb-1">Key</label>
-                        <input type="text" name="key" 
+                        <input type="text" name="key"
                                class="w-full border rounded px-3 py-2"
                                x-model="setting.key">
                     </div>
@@ -164,7 +163,7 @@
                             <input type="file" name="value" class="w-full border rounded px-3 py-2">
 
                             <div class="mt-3" x-show="setting.value">
-                                <img :src="'/uploads/' + setting.value" class="h-24 rounded shadow">
+                                <img :src="setting.value.includes('uploads/') ? '/uploads/landing/' + setting.value.split('/').pop() : '/storage/' + setting.value" class="h-24 rounded shadow">
                             </div>
                         </div>
                     </template>

@@ -7,6 +7,7 @@ use App\Models\LandingSetting;
 use App\Models\LandingProgram;
 use App\Models\LandingNavLink;
 use App\Models\LandingFooterLink;
+use App\Models\Tentang;
 
 class LandingSeeder extends Seeder
 {
@@ -18,8 +19,10 @@ class LandingSeeder extends Seeder
         $settings = [
             ['hero_title', 'Kampus Vokasi Terbaik Untuk Masa Depan Karier Anda', 'text'],
             ['hero_subtitle', 'LP3I hadir dengan fokus pendidikan vokasi yang relevan dengan dunia kerja. Raih keterampilan praktis dan peluang karier lebih cepat bersama kami.', 'text'],
-            ['hero_image', 'landing/hero-lp3i.jpg', 'image'],
+            ['hero_image', 'uploads/landing/hero-lp3i.jpg', 'image'],
             ['footer_text', '© 2025 LP3I College - All Rights Reserved', 'text'],
+            ['tentang_judul', 'Tentang LP3I', 'text'],
+            ['tentang_deskripsi', 'LP3I adalah lembaga pendidikan vokasi yang telah berdiri lebih dari 30 tahun, berfokus pada pendidikan yang langsung terhubung dengan dunia kerja.' . "\n\n" . 'Dengan kurikulum berbasis industri, dosen praktisi, dan jaringan perusahaan luas, LP3I telah membantu ribuan lulusan untuk siap bekerja sejak semester awal.', 'text'],
         ];
 
         foreach ($settings as $item) {
@@ -85,5 +88,16 @@ class LandingSeeder extends Seeder
                 ['url' => $item[1], 'group'=> $item[2],'position' => $item[3], 'status' => 1]
             );
         }
+
+        /** ===============================
+         * TENTANG SECTION
+         * =============================== */
+        Tentang::updateOrCreate(
+            ['judul' => 'Tentang LP3I'],
+            [
+                'deskripsi' => 'LP3I adalah lembaga pendidikan vokasi yang telah berdiri lebih dari 30 tahun, berfokus pada pendidikan yang langsung terhubung dengan dunia kerja.' . "\n\n" . 'Dengan kurikulum berbasis industri, dosen praktisi, dan jaringan perusahaan luas, LP3I telah membantu ribuan lulusan untuk siap bekerja sejak semester awal.',
+                'gambar' => 'tentang/tentang-lp3i.jpeg',
+            ]
+        );
     }
 }

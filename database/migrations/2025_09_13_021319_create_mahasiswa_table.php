@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nim')->unique();
-            $table->string('kelas_id');
+            $table->string('jurusan');
+            $table->foreignId('kelas_id')->nullable()->constrained('kelas')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            $table->dropForeign(['kelas_id']);
+        });
+
         Schema::dropIfExists('mahasiswa');
     }
 };

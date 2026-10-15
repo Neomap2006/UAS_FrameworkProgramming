@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ekyc_registrations', function (Blueprint $table) {
-            $table->string('alamatDomisili')->nullable()->after('file_ijazah');
-            $table->string('provinsi', 100)->nullable()->after('alamat');
+            $table->string('alamat_domisili')->nullable()->after('file_ijazah');
+            $table->string('provinsi', 100)->nullable()->after('alamat_domisili');
             $table->string('kota', 100)->nullable()->after('provinsi');
             $table->string('kecamatan', 100)->nullable()->after('kota');
             $table->string('kode_pos', 10)->nullable()->after('kecamatan');
@@ -23,7 +23,7 @@ return new class extends Migration
     {
         Schema::table('ekyc_registrations', function (Blueprint $table) {
             $table->dropColumn([
-                'alamatDomisili',
+                'alamat_domisili',
                 'provinsi',
                 'kota',
                 'kecamatan',

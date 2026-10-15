@@ -8,9 +8,9 @@
     <div x-data="programPage()" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- Flash --}}
+            {{-- NOTIFIKASI SUCCESS - Hanya 1, sesuai screenshot kamu --}}
             @if(session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                <div class="mb-8 p-4 bg-green-100 text-green-800 rounded-lg border border-green-200">
                     {{ session('success') }}
                 </div>
             @endif
@@ -45,13 +45,20 @@
                                 <tr>
                                     <td class="border px-4 py-2 text-center">
                                         @if($program->image)
-                                            <img src="{{ asset('storage/'.$program->image) }}" class="h-12 mx-auto rounded">
+                                            <img src="{{ str_starts_with($program->image, 'uploads/') ? asset($program->image) : asset('storage/'.$program->image) }}" class="h-12 mx-auto rounded">
                                         @else
                                             -
                                         @endif
                                     </td>
                                     <td class="border px-4 py-2">{{ $program->title }}</td>
-                                    <td class="border px-4 py-2">{{ $program->icon }}</td>
+                                    <td class="border px-4 py-2 text-center">
+                                        @if($program->icon)
+                                            <img src="{{ str_starts_with($program->icon, 'uploads/') ? asset($program->icon) : asset('storage/' . $program->icon) }}"
+                                                 class="h-12 mx-auto rounded shadow" alt="Icon {{ $program->title }}">
+                                        @else
+                                            <span class="text-gray-400">-</span>
+                                        @endif
+                                    </td>
                                     <td class="border px-4 py-2 text-center">{{ $program->position }}</td>
 
                                     <td class="border px-4 py-2 text-center">
@@ -90,7 +97,7 @@
         <div x-show="showCreate"
              class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
              x-transition>
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96 max-h-screen overflow-y-auto">
 
                 <h2 class="text-xl font-semibold mb-4">Tambah Program</h2>
 
@@ -109,7 +116,7 @@
 
                     <div>
                         <label class="block mb-1">Icon</label>
-                        <input type="text" name="icon" class="border-gray-300 rounded-md w-full">
+                        <input type="file" name="icon" accept="image/*" class="border-gray-300 rounded-md w-full">
                     </div>
 
                     <div>
@@ -151,7 +158,7 @@
         <div x-show="showEdit"
              class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
              x-transition>
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96 max-h-screen overflow-y-auto">
 
                 <h2 class="text-xl font-semibold mb-4">Edit Program</h2>
 
@@ -173,8 +180,11 @@
                     </div>
 
                     <div>
-                        <label class="block mb-1">Icon</label>
-                        <input type="text" name="icon" x-model="editData.icon" class="border-gray-300 rounded-md w-full">
+                        <label class="block mb-1">Icon (ganti jika perlu)</label>
+                        <input type="file" name="icon" accept="image/*" class="border-gray-300 rounded-md w-full">
+                        <template x-if="editData.icon">
+                            <img :src="editData.icon && editData.icon.startsWith('uploads/') ? '/' + editData.icon : '/storage/' + editData.icon" class="mt-2 h-20 rounded">
+                        </template>
                     </div>
 
                     <div>
@@ -186,7 +196,7 @@
                         <label class="block mb-1">Image (ganti jika perlu)</label>
                         <input type="file" name="image" class="border-gray-300 rounded-md w-full">
                         <template x-if="editData.image">
-                            <img :src="'/storage/' + editData.image" class="mt-2 h-20 rounded">
+                            <img :src="editData.image && editData.image.startsWith('uploads/') ? '/' + editData.image : '/storage/' + editData.image" class="mt-2 h-20 rounded">
                         </template>
                     </div>
 

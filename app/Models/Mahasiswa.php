@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
+    use HasFactory;
+
     // pointing table
     protected $table = 'mahasiswa';
 
@@ -13,11 +16,13 @@ class Mahasiswa extends Model
     protected $fillable = [
         'nama',
         'nim',
-        'kelas_id'
+        'jurusan',
+        'kelas_id',
     ];
 
+    // Relasi: Mahasiswa milik 1 Kelas
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 }

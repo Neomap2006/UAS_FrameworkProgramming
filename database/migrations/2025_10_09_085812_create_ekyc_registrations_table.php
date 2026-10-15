@@ -7,10 +7,9 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Jalankan migrasi.
      */
-
-    public function up()
+    public function up(): void
     {
         Schema::create('ekyc_registrations', function (Blueprint $table) {
             $table->id();
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->string('nama')->nullable();
             $table->string('nik')->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->text('alamat')->nullable();
+            $table->string('alamat')->nullable();
             $table->string('file_ktp')->nullable();
             $table->string('file_kk')->nullable();
             $table->string('file_ijazah')->nullable();

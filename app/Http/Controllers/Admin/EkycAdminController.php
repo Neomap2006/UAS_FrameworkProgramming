@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 
 class EkycAdminController extends Controller
 {
-    // Tampilkan semua data eKYC
+     // Tampilkan semua data eKYC
     public function index()
     {
         $list = EkycRegistration::with('user')->latest()->paginate(10);
         return view('admin.ekyc.index', compact('list'));
     }
 
-    // Tampilkan detail satu pendaftar
+     // Tampilkan detail satu pendaftar
     public function show($id)
     {
         $data = EkycRegistration::with('user')->findOrFail($id);
@@ -35,6 +35,6 @@ class EkycAdminController extends Controller
         $data->save();
 
         return redirect()->route('admin.ekyc.index')
-                         ->with('success', 'Status eKYC berhasil diperbarui.');
+            ->with('success', 'Status eKYC berhasil diperbarui.');
     }
 }

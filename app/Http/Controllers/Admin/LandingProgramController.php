@@ -5,69 +5,110 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LandingProgram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class LandingProgramController extends Controller
 {
+    /**
+     * Display a listing of the programs.
+     */
     public function index()
     {
         $programs = LandingProgram::orderBy('position')->get();
+
         return view('admin.landing.program.index', compact('programs'));
     }
 
-    public function create()
-    {
-        return view('admin.landing.program.create');
-    }
-
+    /**
+     * Store a newly created program in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'position' => 'required|integer',
-            'image' => 'nullable|image|max:2048'
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'icon'        => 'nullable|string|max:255',
+            'position'    => 'required|integer',
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'status'      => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['title', 'description', 'icon', 'position']);
+        $data['status'] = $request->has('status') ? 1 : 0;
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('landing/programs', 'public');
+            $data['image'] = $request->file('image')->store('Program Pendidikan', 'public');
         }
 
         LandingProgram::create($data);
+        Cache::forget('landing_programs');
 
-        return redirect()->route('admin.landing.programs.index')->with('success', 'Program added');
+        return redirect()
+            ->route('admin.landing.programs.index')
+            ->with('success', 'Program berhasil ditambahkan.');
     }
 
-    public function edit($id)
-    {
-        $program = LandingProgram::findOrFail($id);
-        return view('admin.landing.program.edit', compact('program'));
-    }
-
+    /**
+     * Update the specified program in storage.
+     */
     public function update(Request $request, $id)
     {
         $program = LandingProgram::findOrFail($id);
 
         $request->validate([
-            'title' => 'required',
-            'position' => 'required|integer',
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'icon'        => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'position'    => 'required|integer',
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'status'      => 'nullable|boolean',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['title', 'description', 'position']);
+        $data['status'] = $request->has('status') ? 1 : 0;
+
+        if ($request->hasFile('icon')) {
+            // Hapus icon lama jika ada
+            if ($program->icon && Storage::disk('public')->exists($program->icon)) {
+                Storage::disk('public')->delete($program->icon);
+            }
+
+            $data['icon'] = $request->file('icon')->store('Program Pendidikan', 'public');
+        }
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('landing/programs', 'public');
+            // Hapus gambar lama jika ada
+            if ($program->image && Storage::disk('public')->exists($program->image)) {
+                Storage::disk('public')->delete($program->image);
+            }
+
+            $data['image'] = $request->file('image')->store('Program Pendidikan', 'public');
         }
 
         $program->update($data);
+        Cache::forget('landing_programs');
 
-        return redirect()->route('admin.landing.programs.index')->with('success', 'Program updated');
+        return redirect()
+            ->route('admin.landing.programs.index')
+            ->with('success', 'Program berhasil diperbarui.');
     }
 
+    /**
+     * Remove the specified program from storage.
+     */
     public function destroy($id)
     {
-        LandingProgram::destroy($id);
-        return back()->with('success', 'Program removed');
+        $program = LandingProgram::findOrFail($id);
+
+        // Hapus gambar jika ada
+        if ($program->image && Storage::disk('public')->exists($program->image)) {
+            Storage::disk('public')->delete($program->image);
+        }
+
+        $program->delete();
+        Cache::forget('landing_programs');
+
+        return back()->with('success', 'Program berhasil dihapus.');
     }
 }
-

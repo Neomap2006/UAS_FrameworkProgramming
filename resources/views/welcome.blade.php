@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- konten : title -->
     <title>LP3I - Kampus Vokasi Terbaik</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -12,47 +11,42 @@
     <!-- NAVBAR -->
     <header class="w-full py-4 bg-white shadow-sm fixed top-0 left-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-4">
-            <!-- konten : logo -->
+            <!-- Logo -->
             <h1 class="text-2xl font-bold text-blue-600">LP3I</h1>
-            <!-- konten : navbar  -->
+
+            <!-- Navigation Menu -->
             <nav class="hidden md:flex gap-8 text-gray-700 font-medium">
-                 @foreach ($navigation as $nav)
+                @foreach ($navigation as $nav)
                     <a href="{{ $nav->url }}" class="hover:text-blue-600">
                         {{ $nav->label }}
                     </a>
                 @endforeach
             </nav>
 
+            <!-- Login / Dashboard Button -->
             <div class="flex gap-3">
                 @if (Route::has('login'))
                     <nav class="flex items-center justify-end gap-4">
                         @auth
-                            <a
-                                href="{{ url('/dashboard') }}"
-                                class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700"
-                            >
+                            <a href="{{ url('/dashboard') }}"
+                               class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
                                 Dashboard
                             </a>
                         @else
-                            <a
-                                href="{{ route('login') }}"
-                                class="px-4 py-2 text-blue-600 font-semibold"
-                            >
+                            <a href="{{ route('login') }}"
+                               class="px-4 py-2 text-blue-600 font-semibold">
                                 Log in
                             </a>
 
                             @if (Route::has('register'))
-                                <a
-                                    href="{{ route('register') }}"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
+                                <a href="{{ route('register') }}"
+                                   class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
                                     Register
                                 </a>
                             @endif
                         @endauth
                     </nav>
                 @endif
-                <!-- <a href="#login" class="px-4 py-2 text-blue-600 font-semibold">Login</a> -->
-                <!-- <a href="#daftar" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">Daftar</a> -->
             </div>
         </div>
     </header>
@@ -62,78 +56,105 @@
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 px-4 items-center">
 
             <!-- Text Content -->
-            <!-- konten : banner wording  -->
             <div>
                 <h2 class="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-6">
-                    {{ $landing['hero_title'] ?? 'Kampus Vokasi Terbaik<br />Untuk Masa Depan Karier Anda 99' }}
+                    {!! $landing['hero_title'] ?? 'Kampus Vokasi Terbaik<br />Untuk Masa Depan Karier Anda' !!}
                 </h2>
                 <p class="text-lg text-gray-600 mb-8">
                     {!! $landing['hero_subtitle'] ?? 'Solusi Pendidikan Masa Depan' !!}
                 </p>
                 <div class="flex gap-4">
                     @if (Route::has('register'))
-                        <a
-                            href="{{ route('register') }}"
-                            class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700">
+                        <a href="{{ route('register') }}"
+                           class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700">
                             Daftar Sekarang
                         </a>
                     @endif
-                    <!-- <a href="#daftar" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700">Daftar Sekarang</a> -->
-                    <a href="#program" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg font-semibold text-lg hover:bg-blue-50">Lihat Program</a>
+                    <a href="#program" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg font-semibold text-lg hover:bg-blue-50">
+                        Lihat Program
+                    </a>
                 </div>
             </div>
 
-            <!-- Image -->
+            <!-- Hero Image -->
             <div class="flex justify-center">
-                <!-- konten : banner image -->
-                <img src="{{ asset('uploads/' . ($landing['hero_image'] ?? 'default-hero.png')) }}" alt="Mahasiswa LP3I" class="w-full max-w-2xl object-cover object-cover rounded-xl shadow-lg" />
-
-
+                @php
+                    $heroImg = $landing['hero_image'] ?? 'uploads/landing/hero-lp3i.jpg';
+                    $heroUrl = str_starts_with($heroImg, 'http')
+                        ? $heroImg
+                        : (str_starts_with($heroImg, 'uploads/') ? asset($heroImg) : asset('storage/' . $heroImg));
+                @endphp
+                <img src="{{ $heroUrl }}"
+                     alt="Mahasiswa LP3I"
+                     class="w-full max-w-2xl object-cover rounded-xl shadow-lg" />
             </div>
         </div>
     </section>
 
     <!-- PROGRAM PENDIDIKAN -->
-    <!-- konten : programPendidikan  -->
     <section id="program" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h3 class="text-3xl font-bold text-gray-900 mb-10">Program Pendidikan</h3>
 
             <div class="grid md:grid-cols-3 gap-8">
-            @foreach($programs as $program)
-                <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg transition">
-                    <h4 class="text-xl font-semibold mb-3">{{ $program->name }}</h4>
-                    <p class="text-gray-600">{{ $program->description }}</p>
-                </div>
-            @endforeach
+                @foreach($programs as $program)
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-lg transition">
+                        @php
+                            $progImg = $program->icon ?: $program->image;
+                        @endphp
+                        @if($progImg)
+                            @php
+                                $progUrl = str_starts_with($progImg, 'http')
+                                    ? $progImg
+                                    : (str_starts_with($progImg, 'uploads/') ? asset($progImg) : asset('storage/' . $progImg));
+                            @endphp
+                            <img src="{{ $progUrl }}"
+                                 alt="{{ $program->title }}"
+                                 class="w-16 h-16 mx-auto mb-4 object-cover rounded-lg">
+                        @endif
+                        <h4 class="text-xl font-semibold mb-3">{{ $program->title }}</h4>
+                        <p class="text-gray-600">{{ $program->description }}</p>
+                    </div>
+                @endforeach
             </div>
-
         </div>
     </section>
 
     <!-- TENTANG LP3I -->
-    <!-- konten : tentang -->
     <section id="tentang" class="py-20 bg-gray-50">
         <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+            <!-- Teks Tentang -->
             <div>
-                <h3 class="text-3xl font-bold text-gray-900 mb-6">Tentang LP3I</h3>
+                <h3 class="text-3xl font-bold text-gray-900 mb-6">
+                    {{ $tentang->judul ?? 'Tentang LP3I' }}
+                </h3>
                 <p class="text-gray-600 leading-relaxed mb-4">
-                    LP3I adalah lembaga pendidikan vokasi yang telah berdiri lebih dari 30 tahun,
-                    berfokus pada pendidikan yang langsung terhubung dengan dunia kerja.
-                </p>
-                <p class="text-gray-600 leading-relaxed">
-                    Dengan kurikulum berbasis industri, dosen praktisi, dan jaringan perusahaan luas,
-                    LP3I telah membantu ribuan lulusan untuk siap bekerja sejak semester awal.
+                    {!! nl2br(e($tentang->deskripsi ?? 'LP3I adalah lembaga pendidikan vokasi yang telah berdiri lebih dari 30 tahun, berfokus pada pendidikan yang langsung terhubung dengan dunia kerja.')) !!}
                 </p>
             </div>
-            <div>
-                <img src="{{ asset('uploads/landing/tentang-lp3i.jpeg') }}" class="rounded-xl shadow-lg"/>
+
+            <!-- Gambar Tentang -->
+            <div class="flex justify-center">
+                @if($tentang->gambar)
+                    @php
+                        $tentangImg = $tentang->gambar;
+                        $tentangUrl = str_starts_with($tentangImg, 'http')
+                            ? $tentangImg
+                            : (str_starts_with($tentangImg, 'uploads/') ? asset($tentangImg) : asset('storage/' . $tentangImg));
+                    @endphp
+                    <img src="{{ $tentangUrl }}"
+                         alt="{{ $tentang->judul ?? 'Tentang LP3I' }}"
+                         class="rounded-xl shadow-lg max-w-full h-auto object-cover" />
+                @else
+                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-96 h-72 flex items-center justify-center">
+                        <span class="text-gray-500 text-lg">Belum ada gambar</span>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <!-- konten : footer -->
     <footer id="kontak" class="bg-blue-600 text-white py-10">
         <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-10">
             <div>

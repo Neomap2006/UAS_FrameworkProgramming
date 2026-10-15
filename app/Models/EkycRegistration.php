@@ -11,8 +11,8 @@ class EkycRegistration extends Model
 
     protected $fillable = [
         'user_id',
-        'nik',
         'nama',
+        'nik',
         'tanggal_lahir',
         'alamat',
         'file_ktp',
@@ -22,6 +22,14 @@ class EkycRegistration extends Model
         'asal_sd',
         'asal_smp',
         'asal_sma',
+        'alamat_domisili',
+        'provinsi',
+        'kota',
+        'kecamatan',
+        'kode_pos',
+        'nama_ibu_kandung',
+        'referensi_sumber',
+        'status',
     ];
 
     // Relasi ke tabel users
@@ -30,4 +38,3 @@ class EkycRegistration extends Model
         return $this->belongsTo(User::class);
     }
 }
-

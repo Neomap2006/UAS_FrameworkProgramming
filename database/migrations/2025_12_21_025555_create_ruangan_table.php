@@ -7,24 +7,23 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Jalankan migration.
      */
     public function up(): void
     {
         Schema::create('ruangan', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
+            $table->string('kode', 10);
             $table->string('nama');
-            $table->integer('kapasitas')->default(0);
+            $table->integer('kapasitas');
             $table->timestamps();
         });
     }
-
     /**
-     * Reverse the migrations.
+     * Rollback migration.
      */
     public function down(): void
     {
-        Schema::dropIfExists('ruangans');
+        Schema::dropIfExists('ruangan');
     }
 };
