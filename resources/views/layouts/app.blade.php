@@ -16,16 +16,26 @@
     </style>
 </head>
 <body class="font-sans antialiased bg-slate-50 text-slate-800">
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen flex flex-col"
+         x-data="{ sidebarOpen: localStorage.getItem('sidebarOpen') !== 'false' }"
+         x-init="$watch('sidebarOpen', val => localStorage.setItem('sidebarOpen', val))">
 
         {{-- ====== HEADER / NAVBAR ATAS ====== --}}
         @include('layouts.navigation')
 
         {{-- ====== BODY: Sidebar + Konten Utama ====== --}}
-        <div class="flex flex-1">
+        <div class="flex flex-1 relative overflow-x-hidden">
+
+            {{-- Mobile Backdrop Overlay --}}
+            <div x-show="sidebarOpen"
+                 x-cloak
+                 @click="sidebarOpen = false"
+                 class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-20 md:hidden transition-opacity"
+                 style="display: none;"></div>
 
             {{-- SIDEBAR KIRI --}}
-            <aside class="w-64 bg-white border-r border-slate-200 shadow-xs flex flex-col justify-between overflow-y-auto">
+            <aside :class="sidebarOpen ? 'ml-0' : '-ml-64'"
+                   class="w-64 bg-white border-r border-slate-200 shadow-xs flex flex-col justify-between overflow-y-auto shrink-0 z-30 transition-all duration-300 ease-in-out">
                 <nav class="p-4 space-y-6">
 
                     @if (Auth::check() && Auth::user()->role === 'admin')

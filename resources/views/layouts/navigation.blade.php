@@ -1,21 +1,32 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+<nav x-data="{ mobileNavOpen: false }" class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
     <!-- Primary Navigation Menu -->
     <div class="px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 pl-64 pr-4">
-            <div class="flex items-center">
-                <!-- Portal Brand / Header Title -->
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5">
-                    <img src="{{ asset('storage/image/landing/logo.png') }}"
+        <div class="flex justify-between h-16">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Portal Brand / Header Title (Berada di sebelah kiri!) -->
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 group shrink-0">
+                    <img src="{{ file_exists(public_path('image/landing/logo.png')) ? asset('image/landing/logo.png') : asset('storage/image/landing/logo.png') }}"
                          onerror="this.src='{{ asset('image/landing/logo.png') }}'"
                          alt="Logo LP3I"
-                         class="w-8 h-8 rounded-lg object-contain shadow-xs">
-                    <span class="text-base font-semibold text-slate-800 tracking-tight">
+                         class="w-8 h-8 rounded-lg object-contain shadow-xs transition-transform duration-200 group-hover:scale-105">
+                    <span class="text-base font-bold text-slate-800 tracking-tight">
                         Portal Akademik & eKYC
                     </span>
                 </a>
 
+                <!-- Sidebar Toggle Button (Desktop & Mobile) -->
+                <button @click="sidebarOpen = !sidebarOpen"
+                        type="button"
+                        class="p-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-100 focus:outline-none transition-colors duration-150 cursor-pointer"
+                        title="Buka / Tutup Sidebar"
+                        aria-label="Toggle Sidebar">
+                    <svg class="w-5 h-5 transition-transform duration-200" :class="{ 'rotate-180': !sidebarOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+
                 <!-- Navigation Links -->
-                <div class="hidden space-x-6 sm:-my-px sm:ms-8 sm:flex">
+                <div class="hidden space-x-6 sm:-my-px sm:ms-2 sm:flex">
                     <a href="{{ route('dashboard') }}"
                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition {{ request()->routeIs('dashboard') ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
                         Dashboard
@@ -67,12 +78,12 @@
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger (Mobile) -->
+            <!-- Hamburger (Mobile Navbar Menu) -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-slate-700 hover:bg-slate-100 focus:outline-none transition duration-150 ease-in-out">
+                <button @click="mobileNavOpen = ! mobileNavOpen" class="inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:text-slate-700 hover:bg-slate-100 focus:outline-none transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{'hidden': mobileNavOpen, 'inline-flex': ! mobileNavOpen }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! mobileNavOpen, 'inline-flex': mobileNavOpen }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -80,7 +91,7 @@
     </div>
 
     <!-- Responsive Navigation Menu (Mobile) -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white border-b border-slate-200">
+    <div :class="{'block': mobileNavOpen, 'hidden': ! mobileNavOpen}" class="hidden sm:hidden bg-white border-b border-slate-200">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
