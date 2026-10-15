@@ -91,7 +91,7 @@
             <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs hover:shadow-md transition-shadow">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pendaftar E-KYC</p>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">E-KYC Calon Mahasiswa</p>
                         <div class="flex items-baseline gap-2 mt-1">
                             <h3 class="text-2xl font-bold text-slate-800">{{ $totalEkyc ?? 0 }}</h3>
                             @if(isset($pendingEkyc) && $pendingEkyc > 0)
@@ -141,7 +141,7 @@
                             📋
                         </div>
                         <div>
-                            <h4 class="font-semibold text-sm text-slate-800 group-hover:text-emerald-700">Verifikasi E-KYC</h4>
+                            <h4 class="font-semibold text-sm text-slate-800 group-hover:text-emerald-700">Daftar E-KYC Calon Mahasiswa</h4>
                             <p class="text-xs text-slate-500 mt-0.5">Approve atau reject berkas</p>
                         </div>
                     </div>

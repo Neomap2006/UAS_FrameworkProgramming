@@ -1,6 +1,6 @@
 /**
  * Instant Navigation & Page Transition Engine
- * Provides instant, SPA-like navigation, link prefetching,
+ * Ultra-fast SPA-like navigation, idle prefetching,
  * smooth top loading bar, and seamless Alpine.js rehydration.
  */
 
@@ -21,6 +21,7 @@ class InstantNav {
 
         this.createProgressBar();
         this.bindEvents();
+        this.prefetchSidebarLinks();
     }
 
     createProgressBar() {
@@ -41,7 +42,7 @@ class InstantNav {
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 5px rgba(99, 102, 241, 0.6);
             z-index: 999999;
             opacity: 0;
-            transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+            transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
             pointer-events: none;
         `;
         document.body.appendChild(bar);
@@ -51,19 +52,19 @@ class InstantNav {
     startProgress() {
         if (!this.progressBar) return;
         clearInterval(this.progressInterval);
-        this.currentProgress = 15;
+        this.currentProgress = 25;
         this.progressBar.style.opacity = '1';
-        this.progressBar.style.width = '15%';
+        this.progressBar.style.width = '25%';
 
         this.progressInterval = setInterval(() => {
             if (this.currentProgress < 75) {
-                this.currentProgress += Math.random() * 15;
+                this.currentProgress += Math.random() * 20;
                 this.progressBar.style.width = `${Math.min(this.currentProgress, 75)}%`;
             } else if (this.currentProgress < 90) {
-                this.currentProgress += Math.random() * 3;
+                this.currentProgress += Math.random() * 4;
                 this.progressBar.style.width = `${Math.min(this.currentProgress, 90)}%`;
             }
-        }, 120);
+        }, 80);
     }
 
     finishProgress() {
@@ -77,8 +78,8 @@ class InstantNav {
             setTimeout(() => {
                 this.progressBar.style.width = '0%';
                 this.currentProgress = 0;
-            }, 250);
-        }, 180);
+            }, 200);
+        }, 120);
     }
 
     isValidLink(link, e) {
@@ -135,6 +136,19 @@ class InstantNav {
         return null;
     }
 
+    prefetchSidebarLinks() {
+        setTimeout(() => {
+            const links = document.querySelectorAll('aside a[href]');
+            links.forEach((link, index) => {
+                if (this.isValidLink(link, null)) {
+                    setTimeout(() => {
+                        this.prefetch(link.href);
+                    }, index * 70);
+                }
+            });
+        }, 400);
+    }
+
     async navigate(url, pushState = true) {
         if (this.isNavigating) return;
 
@@ -145,17 +159,21 @@ class InstantNav {
         }
 
         this.isNavigating = true;
-        this.startProgress();
+
+        // Check if already in cache for instant sub-5ms switch
+        let html = null;
+        if (this.cache.has(url)) {
+            const cached = this.cache.get(url);
+            if (Date.now() - cached.timestamp < this.cacheDuration) {
+                html = cached.html;
+            }
+        }
+
+        if (!html) {
+            this.startProgress();
+        }
 
         try {
-            let html = null;
-            if (this.cache.has(url)) {
-                const cached = this.cache.get(url);
-                if (Date.now() - cached.timestamp < this.cacheDuration) {
-                    html = cached.html;
-                }
-            }
-
             if (!html) {
                 const response = await fetch(url, {
                     headers: {
@@ -197,26 +215,58 @@ class InstantNav {
         const currentMain = document.querySelector('main');
 
         if (newMain && currentMain) {
+            currentMain.style.opacity = '0.85';
             currentMain.innerHTML = newMain.innerHTML;
+
+            // Re-execute scripts inside main
+            const scripts = currentMain.querySelectorAll('script');
+            scripts.forEach(oldScript => {
+                const newScript = document.createElement('script');
+                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
 
             // Re-initialize Alpine on the new main content
             if (window.Alpine) {
                 window.Alpine.initTree(currentMain);
             }
+
+            requestAnimationFrame(() => {
+                currentMain.style.opacity = '1';
+            });
         } else {
             // Fallback if layout structure is different
             window.location.href = url;
             return;
         }
 
-        // 3. Update Sidebar Active State
+        // 3. Update Sidebar Active State smoothly without destroying sidebar DOM
         const newAside = doc.querySelector('aside');
         const currentAside = document.querySelector('aside');
         if (newAside && currentAside) {
-            currentAside.innerHTML = newAside.innerHTML;
-            if (window.Alpine) {
-                window.Alpine.initTree(currentAside);
-            }
+            const newLinks = newAside.querySelectorAll('a[href]');
+            const curLinks = currentAside.querySelectorAll('a[href]');
+            const newLinkMap = new Map();
+            newLinks.forEach(l => newLinkMap.set(l.getAttribute('href'), l));
+
+            curLinks.forEach(curLink => {
+                const newLink = newLinkMap.get(curLink.getAttribute('href'));
+                if (newLink) {
+                    curLink.className = newLink.className;
+                    // Update badge count if present
+                    const newBadge = newLink.querySelector('span.rounded-full');
+                    const curBadge = curLink.querySelector('span.rounded-full');
+                    if (newBadge && curBadge) {
+                        curBadge.textContent = newBadge.textContent;
+                        curBadge.className = newBadge.className;
+                    } else if (newBadge && !curBadge) {
+                        curLink.appendChild(newBadge.cloneNode(true));
+                    } else if (!newBadge && curBadge) {
+                        curBadge.remove();
+                    }
+                }
+            });
         }
 
         // 4. Update History
@@ -229,6 +279,9 @@ class InstantNav {
 
         // Dispatch custom event for any listeners
         window.dispatchEvent(new CustomEvent('instant:navigated', { detail: { url } }));
+
+        // Prefetch any new sidebar links or updated pages
+        this.prefetchSidebarLinks();
     }
 
     bindEvents() {
@@ -248,7 +301,7 @@ class InstantNav {
             if (this.isValidLink(link, null)) {
                 hoverTimeout = setTimeout(() => {
                     this.prefetch(link.href);
-                }, 50);
+                }, 40);
             }
         }, true);
 

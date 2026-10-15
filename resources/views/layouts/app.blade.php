@@ -16,7 +16,7 @@
             } elseif (request()->routeIs('dosen.*')) {
                 $pageTitle = 'Dosen';
             } elseif (request()->routeIs('admin.ekyc.*') || request()->routeIs('ekyc.*')) {
-                $pageTitle = 'E-KYC Mahasiswa';
+                $pageTitle = 'Daftar E-KYC Calon Mahasiswa';
             } elseif (request()->routeIs('admin.landing.settings.*')) {
                 $pageTitle = 'Pengaturan Hero';
             } elseif (request()->routeIs('admin.landing.navigation.*')) {
@@ -122,7 +122,7 @@
                                    class="flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('admin.ekyc.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
                                     <div class="flex items-center gap-3">
                                         <span class="text-lg">✅</span>
-                                        <span>E-KYC Mahasiswa</span>
+                                        <span>Daftar E-KYC Calon Mahasiswa</span>
                                     </div>
                                     @php
                                         $pendingCount = \Illuminate\Support\Facades\Cache::remember('pending_ekyc_count', 30, function () {

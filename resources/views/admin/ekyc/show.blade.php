@@ -1,15 +1,8 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow mt-8">
-        <h2 class="text-2xl font-semibold mb-6 border-b pb-3">
-            Detail eKYC - {{ $data->user->name ?? '-' }}
+        <h2 class="text-2xl font-bold mb-6 border-b border-slate-200 pb-3 text-slate-800">
+            Detail E-KYC Calon Mahasiswa - {{ $data->user->name ?? $data->nama ?? '-' }}
         </h2>
-
-        {{-- Notifikasi --}}
-        @if (session('success'))
-            <div class="bg-green-100 text-green-700 p-3 mb-6 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
 
         {{-- ==================== Data Pribadi ==================== --}}
         <section>
