@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\EkycRegistration;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class EkycAdminController extends Controller
 {
-     // Tampilkan semua data eKYC
+    // Tampilkan semua data eKYC
     public function index()
     {
         $list = EkycRegistration::with('user')->latest()->paginate(10);
         return view('admin.ekyc.index', compact('list'));
     }
 
-     // Tampilkan detail satu pendaftar
+    // Tampilkan detail satu pendaftar
     public function show($id)
     {
         $data = EkycRegistration::with('user')->findOrFail($id);
@@ -33,6 +34,10 @@ class EkycAdminController extends Controller
         $data = EkycRegistration::findOrFail($id);
         $data->status = $request->status;
         $data->save();
+
+        // Invalidate cached counts immediately
+        Cache::forget('pending_ekyc_count');
+        Cache::forget('dashboard_stats');
 
         return redirect()->route('admin.ekyc.index')
             ->with('success', 'Status eKYC berhasil diperbarui.');

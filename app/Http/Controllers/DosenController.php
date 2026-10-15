@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dosen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class DosenController extends Controller
 {
@@ -12,7 +13,7 @@ class DosenController extends Controller
      */
     public function index()
     {
-        $data = Dosen::all();
+        $data = Dosen::latest()->get();
         return view('dosen.index', compact('data'));
     }
 
@@ -37,6 +38,8 @@ class DosenController extends Controller
             'alamat'      => $request->alamat,
             'mata_kuliah' => $mataKuliah,
         ]);
+
+        Cache::forget('dashboard_stats');
 
         return redirect()->route('dosen.index')
                         ->with('success', 'Dosen berhasil ditambahkan.');
@@ -84,6 +87,9 @@ class DosenController extends Controller
     public function destroy($id)
     {
         Dosen::destroy($id);
+
+        Cache::forget('dashboard_stats');
+
         return redirect()->route('dosen.index')
                         ->with('success', 'Dosen berhasil dihapus.');
     }

@@ -23,13 +23,18 @@ Route::get('/', [LandingController::class, 'index'])->name('home');
 
 // Dashboard (setelah login)
 Route::get('/dashboard', function () {
-    $totalMahasiswa = \App\Models\Mahasiswa::count();
-    $totalDosen = \App\Models\Dosen::count();
-    $totalMatkul = \App\Models\Matkul::count();
-    $totalRuangan = \App\Models\Ruangan::count();
-    $totalEkyc = \App\Models\EkycRegistration::count();
-    $pendingEkyc = \App\Models\EkycRegistration::where('status', 'submitted')->count();
-    return view('dashboard', compact('totalMahasiswa', 'totalDosen', 'totalMatkul', 'totalRuangan', 'totalEkyc', 'pendingEkyc'));
+    $stats = \Illuminate\Support\Facades\Cache::remember('dashboard_stats', 60, function () {
+        return [
+            'totalMahasiswa' => \App\Models\Mahasiswa::count(),
+            'totalDosen'     => \App\Models\Dosen::count(),
+            'totalMatkul'    => \App\Models\Matkul::count(),
+            'totalRuangan'   => \App\Models\Ruangan::count(),
+            'totalEkyc'      => \App\Models\EkycRegistration::count(),
+            'pendingEkyc'    => \App\Models\EkycRegistration::where('status', 'submitted')->count(),
+        ];
+    });
+
+    return view('dashboard', $stats);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

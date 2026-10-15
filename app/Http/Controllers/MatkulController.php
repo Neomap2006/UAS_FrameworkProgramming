@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Matkul;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MatkulController extends Controller
 {
     public function index()
     {
-        $data = Matkul::all();
+        $data = Matkul::latest()->get();
         return view('matkul.index', compact('data'));
     }
 
@@ -17,11 +18,13 @@ class MatkulController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'kode'        => 'required|string|max:50|unique:matkul,kode',
-            'sks'         => 'required|integer|min:1',
+            'kode' => 'required|string|max:50|unique:matkul,kode',
+            'sks'  => 'required|integer|min:1',
         ]);
 
         Matkul::create($request->only('nama', 'kode', 'sks'));
+
+        Cache::forget('dashboard_stats');
 
         return redirect()->route('matkul.index')->with('success', 'Matkul berhasil ditambahkan');
     }
@@ -41,8 +44,8 @@ class MatkulController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'kode'        => 'required|string|max:50|unique:matkul,kode,' . $id,
-            'sks'         => 'required|integer|min:1',
+            'kode' => 'required|string|max:50|unique:matkul,kode,' . $id,
+            'sks'  => 'required|integer|min:1',
         ]);
 
         $matkul = Matkul::findOrFail($id);
@@ -55,6 +58,8 @@ class MatkulController extends Controller
     {
         $matkul = Matkul::findOrFail($id);
         $matkul->delete();
+
+        Cache::forget('dashboard_stats');
 
         return redirect()->route('matkul.index')->with('success', 'Matkul berhasil dihapus');
     }

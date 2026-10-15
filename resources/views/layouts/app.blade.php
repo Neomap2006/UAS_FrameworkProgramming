@@ -125,7 +125,9 @@
                                         <span>E-KYC Mahasiswa</span>
                                     </div>
                                     @php
-                                        $pendingCount = \App\Models\EkycRegistration::where('status', 'submitted')->count();
+                                        $pendingCount = \Illuminate\Support\Facades\Cache::remember('pending_ekyc_count', 30, function () {
+                                            return \App\Models\EkycRegistration::where('status', 'submitted')->count();
+                                        });
                                     @endphp
                                     @if($pendingCount > 0)
                                         <span class="px-2 py-0.5 text-xs font-bold rounded-full {{ request()->routeIs('admin.ekyc.*') ? 'bg-white text-blue-700' : 'bg-amber-100 text-amber-700' }}">
