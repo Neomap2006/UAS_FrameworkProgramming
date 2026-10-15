@@ -25,13 +25,7 @@
                     </svg>
                 </button>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-6 sm:-my-px sm:ms-2 sm:flex">
-                    <a href="{{ route('dashboard') }}"
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition {{ request()->routeIs('dashboard') ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
-                        Dashboard
-                    </a>
-                </div>
+
             </div>
 
             <!-- Settings Dropdown -->
