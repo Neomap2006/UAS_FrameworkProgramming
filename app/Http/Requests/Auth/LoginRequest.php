@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -20,6 +22,21 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * Prepare inputs before validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $loginValue = $this->input('login') ?? $this->input('email');
+
+        if ($loginValue !== null) {
+            $this->merge([
+                'login' => trim($loginValue),
+                'email' => trim($loginValue),
+            ]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -27,7 +44,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'login' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,10 +58,40 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $login = $this->input('login') ?? $this->input('email');
+        $password = $this->input('password');
+        $remember = $this->boolean('remember');
+
+        $isEmail = filter_var($login, FILTER_VALIDATE_EMAIL);
+        $attempted = false;
+
+        if ($isEmail) {
+            $attempted = Auth::attempt(['email' => $login, 'password' => $password], $remember);
+        } else {
+            $attempted = Auth::attempt(['username' => $login, 'password' => $password], $remember);
+            if (! $attempted) {
+                $attempted = Auth::attempt(['name' => $login, 'password' => $password], $remember);
+            }
+        }
+
+        // Direct user query fallback for case-insensitive or name match
+        if (! $attempted) {
+            $user = User::where('email', $login)
+                ->orWhere('username', $login)
+                ->orWhere('name', $login)
+                ->first();
+
+            if ($user && Hash::check($password, $user->password)) {
+                Auth::login($user, $remember);
+                $attempted = true;
+            }
+        }
+
+        if (! $attempted) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
+                'login' => trans('auth.failed'),
                 'email' => trans('auth.failed'),
             ]);
         }
@@ -68,6 +115,10 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
+            'login' => trans('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ]),
             'email' => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
@@ -80,6 +131,7 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        $login = $this->input('login') ?? $this->input('email');
+        return Str::transliterate(Str::lower($login).'|'.$this->ip());
     }
 }

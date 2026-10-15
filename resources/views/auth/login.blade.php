@@ -133,33 +133,33 @@
                 <form method="POST" action="{{ route('login') }}" class="space-y-5" x-data="{ showPass: false }">
                     @csrf
 
-                    {{-- Field: Email Address --}}
+                    {{-- Field: Email or Username --}}
                     <div>
-                        <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                            Alamat Email
+                        <label for="login" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            Email atau Username
                         </label>
                         <div class="relative rounded-xl shadow-2xs">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
-                            <input id="email"
-                                   type="email"
-                                   name="email"
-                                   value="{{ old('email') }}"
+                            <input id="login"
+                                   type="text"
+                                   name="login"
+                                   value="{{ old('login') ?? old('email') }}"
                                    required
                                    autofocus
                                    autocomplete="username"
-                                   placeholder="nama@lp3i.ac.id"
-                                   class="block w-full pl-11 pr-4 py-3 bg-white border {{ $errors->has('email') ? 'border-rose-400 ring-2 ring-rose-100' : 'border-slate-300' }} rounded-xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 transition-all">
+                                   placeholder="Username atau nama@lp3i.ac.id"
+                                   class="block w-full pl-11 pr-4 py-3 bg-white border {{ ($errors->has('login') || $errors->has('email')) ? 'border-rose-400 ring-2 ring-rose-100' : 'border-slate-300' }} rounded-xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 transition-all">
                         </div>
-                        @if ($errors->has('email'))
+                        @if ($errors->has('login') || $errors->has('email'))
                             <p class="mt-1.5 text-xs text-rose-600 flex items-center gap-1 font-medium">
                                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                <span>{{ $errors->first('email') }}</span>
+                                <span>{{ $errors->first('login') ?: $errors->first('email') }}</span>
                             </p>
                         @endif
                     </div>
