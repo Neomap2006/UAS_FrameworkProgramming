@@ -99,7 +99,9 @@
         {{-- MODAL --}}
         <div
             x-show="open"
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40"
+            x-cloak
+            style="display: none;"
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
             x-transition >
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl w-full max-w-md shadow-2xl" @click.away="open=false">
 

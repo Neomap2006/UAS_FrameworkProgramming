@@ -10,6 +10,10 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 <body class="font-sans antialiased bg-slate-50 text-slate-800">
     <div class="min-h-screen flex flex-col">
@@ -109,7 +113,7 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" x-transition class="mt-1 pl-4 space-y-1">
+                            <div x-show="open" x-cloak x-transition class="mt-1 pl-4 space-y-1">
                                 <a href="{{ route('admin.landing.settings.index') }}"
                                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition {{ request()->routeIs('admin.landing.settings.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
                                     <span>⚙️</span>
