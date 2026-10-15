@@ -22,13 +22,21 @@ class DosenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'       => 'required|string|max:100',
-            'nid'        => 'required|string|max:50|unique:dosen,nid',
-            'alamat'     => 'nullable|string|max:255',
+            'nama'        => 'required|string|max:100',
+            'nid'         => 'required|string|max:50|unique:dosen,nid',
+            'alamat'      => 'nullable|string|max:255',
             'mata_kuliah' => 'nullable|string|max:100',
+            'mataKuliah'  => 'nullable|string|max:100',
         ]);
 
-        Dosen::create($request->only(['nama','nid','alamat','mata_kuliah']));
+        $mataKuliah = $request->input('mata_kuliah', $request->input('mataKuliah'));
+
+        Dosen::create([
+            'nama'        => $request->nama,
+            'nid'         => $request->nid,
+            'alamat'      => $request->alamat,
+            'mata_kuliah' => $mataKuliah,
+        ]);
 
         return redirect()->route('dosen.index')
                         ->with('success', 'Dosen berhasil ditambahkan.');
@@ -51,13 +59,21 @@ class DosenController extends Controller
         $dosen = Dosen::findOrFail($id);
 
         $request->validate([
-            'nama'       => 'required|string|max:100',
-            'nid'        => 'required|string|max:50|unique:dosen,nid,' . $dosen->id,
-            'alamat'     => 'nullable|string|max:255',
+            'nama'        => 'required|string|max:100',
+            'nid'         => 'required|string|max:50|unique:dosen,nid,' . $dosen->id,
+            'alamat'      => 'nullable|string|max:255',
             'mata_kuliah' => 'nullable|string|max:100',
+            'mataKuliah'  => 'nullable|string|max:100',
         ]);
 
-        $dosen->update($request->only(['nama','nid','alamat','mata_kuliah']));
+        $mataKuliah = $request->input('mata_kuliah', $request->input('mataKuliah'));
+
+        $dosen->update([
+            'nama'        => $request->nama,
+            'nid'         => $request->nid,
+            'alamat'      => $request->alamat,
+            'mata_kuliah' => $mataKuliah,
+        ]);
 
         return redirect()->route('dosen.index')
                         ->with('success', 'Data dosen berhasil diupdate.');

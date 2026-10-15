@@ -114,106 +114,65 @@
         </div>
 
         {{-- QUICK ACTIONS & SHORTCUTS --}}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-xs">
+            <h3 class="font-bold text-base text-slate-800 mb-4 flex items-center gap-2">
+                <span>⚡</span>
+                <span>Menu Pintas Operasional</span>
+            </h3>
 
-            {{-- AKSI CEPAT --}}
-            <div class="lg:col-span-2 bg-white rounded-xl p-6 border border-slate-200 shadow-xs">
-                <h3 class="font-bold text-base text-slate-800 mb-4 flex items-center gap-2">
-                    <span>⚡</span>
-                    <span>Menu Pintas Operasional</span>
-                </h3>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <a href="{{ route('mahasiswa.index') }}"
-                       class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-blue-50 hover:border-blue-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                👥
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-800 group-hover:text-blue-700">Data Mahasiswa</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Tambah & atur kelas mahasiswa</p>
-                            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="{{ route('mahasiswa.index') }}"
+                   class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-blue-50 hover:border-blue-200 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            👥
                         </div>
-                    </a>
-
-                    <a href="{{ route('admin.ekyc.index') }}"
-                       class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50 hover:border-emerald-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                📋
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-800 group-hover:text-emerald-700">Verifikasi eKYC</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Approve atau reject pendaftaran</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('admin.landing.programs.index') }}"
-                       class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                🎓
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-800 group-hover:text-indigo-700">Program Studi</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Update jurusan & banner landing</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="{{ route('admin.landing.settings.index') }}"
-                       class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-amber-50 hover:border-amber-200 transition-all">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                                ⚙️
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-800 group-hover:text-amber-700">CMS Landing Page</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Atur judul hero, subtitle & footer</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            {{-- INFORMASI SISTEM / STATUS --}}
-            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-base text-slate-800 mb-4 flex items-center gap-2">
-                        <span>ℹ️</span>
-                        <span>Informasi Project</span>
-                    </h3>
-
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between py-2 border-b border-slate-100">
-                            <span class="text-slate-500">Mata Kuliah:</span>
-                            <span class="font-semibold text-slate-800">Framework Programming</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-100">
-                            <span class="text-slate-500">Framework:</span>
-                            <span class="font-semibold text-blue-600">Laravel 12 (PHP 8.2)</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-100">
-                            <span class="text-slate-500">Frontend:</span>
-                            <span class="font-semibold text-slate-800">Tailwind CSS & Alpine</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-100">
-                            <span class="text-slate-500">Developer:</span>
-                            <span class="font-semibold text-slate-800">Neo M Andhika Pratama</span>
+                        <div>
+                            <h4 class="font-semibold text-sm text-slate-800 group-hover:text-blue-700">Data Mahasiswa</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">Tambah & atur kelas</p>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="mt-6 pt-4 border-t border-slate-100 text-center">
-                    <span class="inline-flex items-center gap-1.5 text-xs text-emerald-600 font-semibold bg-emerald-50 px-3 py-1 rounded-full">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        Status Sistem: Normal & Siap Pakai
-                    </span>
-                </div>
+                <a href="{{ route('admin.ekyc.index') }}"
+                   class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-emerald-50 hover:border-emerald-200 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            📋
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-slate-800 group-hover:text-emerald-700">Verifikasi eKYC</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">Approve atau reject berkas</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.landing.programs.index') }}"
+                   class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-200 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            🎓
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-slate-800 group-hover:text-indigo-700">Program Studi</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">Update jurusan & banner</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.landing.settings.index') }}"
+                   class="group p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-amber-50 hover:border-amber-200 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            ⚙️
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-slate-800 group-hover:text-amber-700">CMS Landing Page</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">Atur judul, info & footer</p>
+                        </div>
+                    </div>
+                </a>
             </div>
-
         </div>
 
     </div>

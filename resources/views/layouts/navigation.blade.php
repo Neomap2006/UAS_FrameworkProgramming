@@ -31,10 +31,6 @@
                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition {{ request()->routeIs('dashboard') ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
                         Dashboard
                     </a>
-                    <a href="{{ url('/') }}" target="_blank"
-                       class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-slate-500 hover:text-blue-600 hover:border-slate-300 transition">
-                        Lihat Website ↗
-                    </a>
                 </div>
             </div>
 
@@ -95,9 +91,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="url('/')" target="_blank">
-                {{ __('Lihat Website Publik') }}
             </x-responsive-nav-link>
         </div>
 

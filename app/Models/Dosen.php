@@ -17,4 +17,9 @@ class Dosen extends Model
         'alamat',
         'mata_kuliah',
     ];
+
+    public function getMataKuliahAttribute()
+    {
+        return $this->attributes['mata_kuliah'] ?? null;
+    }
 }

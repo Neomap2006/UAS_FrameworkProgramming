@@ -21,14 +21,13 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama'     => 'required',
+            'nama'     => 'required|string|max:255',
             'nim'      => 'required|unique:mahasiswa,nim',
-            'jurusan'  => 'required',
             'kelas_id' => 'required|exists:kelas,id',
         ]);
 
-        Mahasiswa::create($request->only('nama','nim','jurusan','kelas_id'));
-        return redirect()->back()->with('success','Data berhasil ditambahkan');
+        Mahasiswa::create($request->only('nama','nim','kelas_id'));
+        return redirect()->back()->with('success','Data mahasiswa berhasil ditambahkan!');
     }
 
       // ✅ Edit
@@ -45,15 +44,14 @@ class MahasiswaController extends Controller
         $mhs = Mahasiswa::findOrFail($id);
         
         $request->validate([
-            'nama'     => 'required',
+            'nama'     => 'required|string|max:255',
             'nim'      => 'required|unique:mahasiswa,nim,' . $mhs->id,
-            'jurusan'  =>  'required',
             'kelas_id' => 'required|exists:kelas,id',
         ]);
 
-        $mhs->update($request->only('nama','nim','jurusan','kelas_id'));
+        $mhs->update($request->only('nama','nim','kelas_id'));
 
-        return redirect()->route('mahasiswa.index')->with('success','Data berhasil diupdate!');
+        return redirect()->route('mahasiswa.index')->with('success','Data mahasiswa berhasil diupdate!');
     }
 
     // ✅ Delete
