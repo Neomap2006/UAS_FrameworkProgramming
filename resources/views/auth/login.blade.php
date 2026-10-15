@@ -1,4 +1,4 @@
-<x-guest-layout :full-bleed="true">
+<x-guest-layout>
     <div class="min-h-screen grid lg:grid-cols-12 bg-white selection:bg-blue-600 selection:text-white">
 
         {{-- ======================================================== --}}
