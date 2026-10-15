@@ -4,14 +4,15 @@
         <div class="flex justify-between h-16 pl-64 pr-4">
             <div class="flex items-center">
                 <!-- Portal Brand / Header Title -->
-                <div class="flex items-center gap-2">
-                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-sm shadow-xs">
-                        LP
-                    </span>
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5">
+                    <img src="{{ asset('storage/image/landing/logo.png') }}"
+                         onerror="this.src='{{ asset('image/landing/logo.png') }}'"
+                         alt="Logo LP3I"
+                         class="w-8 h-8 rounded-lg object-contain shadow-xs">
                     <span class="text-base font-semibold text-slate-800 tracking-tight">
                         Portal Akademik & eKYC
                     </span>
-                </div>
+                </a>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-6 sm:-my-px sm:ms-8 sm:flex">

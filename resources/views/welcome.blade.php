@@ -4,15 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LP3I - Kampus Vokasi Terbaik</title>
+    <link rel="icon" type="image/png" href="{{ asset('storage/image/landing/logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-gray-800">
 
     <!-- NAVBAR -->
-    <header class="w-full py-4 bg-white shadow-sm fixed top-0 left-0 z-50">
+    <header class="w-full py-3.5 bg-white shadow-sm fixed top-0 left-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-4">
             <!-- Logo -->
-            <h1 class="text-2xl font-bold text-blue-600">LP3I</h1>
+            <a href="{{ url('/') }}" class="flex items-center gap-2.5 group">
+                <img src="{{ asset('storage/image/landing/logo.png') }}"
+                     onerror="this.src='{{ asset('image/landing/logo.png') }}'"
+                     alt="Logo LP3I"
+                     class="h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105">
+                <span class="text-2xl font-extrabold text-blue-600 tracking-tight">LP3I</span>
+            </a>
 
             <!-- Navigation Menu -->
             <nav class="hidden md:flex gap-8 text-gray-700 font-medium">
@@ -158,7 +165,13 @@
     <footer id="kontak" class="bg-blue-600 text-white py-10">
         <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-10">
             <div>
-                <h4 class="text-xl font-semibold mb-3">LP3I</h4>
+                <div class="flex items-center gap-2.5 mb-3">
+                    <img src="{{ asset('storage/image/landing/logo.png') }}"
+                         onerror="this.src='{{ asset('image/landing/logo.png') }}'"
+                         alt="Logo LP3I"
+                         class="h-9 w-auto object-contain bg-white/10 p-1 rounded-md">
+                    <h4 class="text-xl font-bold tracking-tight">LP3I</h4>
+                </div>
                 <p class="text-gray-100">Kampus vokasi yang mempersiapkan mahasiswa siap kerja lebih cepat.</p>
             </div>
             <div>
