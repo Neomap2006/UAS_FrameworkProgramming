@@ -10,7 +10,7 @@
                          alt="Logo LP3I"
                          class="w-8 h-8 rounded-lg object-contain shadow-xs transition-transform duration-200 group-hover:scale-105">
                     <span class="text-base font-bold text-slate-800 tracking-tight">
-                        Portal Akademik & eKYC
+                        Portal Akademik & E-KYC
                     </span>
                 </a>
 

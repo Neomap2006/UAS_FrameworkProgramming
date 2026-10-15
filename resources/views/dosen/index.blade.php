@@ -55,10 +55,10 @@
                         <thead class="bg-gray-200 text-gray-700">
                             <tr>
                                 <th class="px-4 py-2 w-16 text-center">No</th>
-                                <th class="px-4 py-2">NID</th>
-                                <th class="px-4 py-2">Nama</th>
-                                <th class="px-4 py-2">Alamat</th>
-                                <th class="px-4 py-2">Mata Kuliah</th>
+                                <th class="px-4 py-2 text-center">NID</th>
+                                <th class="px-4 py-2 text-center">Nama</th>
+                                <th class="px-4 py-2 text-center">Alamat</th>
+                                <th class="px-4 py-2 text-center">Mata Kuliah</th>
                                 <th class="px-4 py-2 w-40 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -66,10 +66,10 @@
                             @foreach($data as $item)
                                 <tr>
                                     <td class="border px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                                    <td class="border px-4 py-2 font-mono font-semibold text-blue-600">{{ $item->nid }}</td>
-                                    <td class="border px-4 py-2 font-medium">{{ $item->nama }}</td>
-                                    <td class="border px-4 py-2 text-slate-600">{{ $item->alamat ?? '-' }}</td>
-                                    <td class="border px-4 py-2">{{ $item->mata_kuliah ?? $item->mataKuliah ?? '-' }}</td>
+                                    <td class="border px-4 py-2 text-center font-mono font-semibold text-blue-600">{{ $item->nid }}</td>
+                                    <td class="border px-4 py-2 text-center font-medium">{{ $item->nama }}</td>
+                                    <td class="border px-4 py-2 text-center text-slate-600">{{ $item->alamat ?? '-' }}</td>
+                                    <td class="border px-4 py-2 text-center">{{ $item->mata_kuliah ?? $item->mataKuliah ?? '-' }}</td>
                                     <td class="border px-4 py-3 text-center">
                                         <div class="flex items-center justify-center gap-2">
                                             {{-- Trigger Modal Edit --}}

@@ -11,29 +11,29 @@
         <table class="w-full border-collapse border border-gray-300 text-sm">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="border p-2">#</th>
-                    <th class="border p-2">Nama</th>
-                    <th class="border p-2">NIK</th>
-                    <th class="border p-2">Status</th>
-                    <th class="border p-2">Tanggal</th>
-                    <th class="border p-2">Aksi</th>
+                    <th class="border p-2 text-center">#</th>
+                    <th class="border p-2 text-center">Nama</th>
+                    <th class="border p-2 text-center">NIK</th>
+                    <th class="border p-2 text-center">Status</th>
+                    <th class="border p-2 text-center">Tanggal</th>
+                    <th class="border p-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($list as $i => $row)
                     <tr>
-                        <td class="border p-2">{{ $i + 1 }}</td>
-                        <td class="border p-2">{{ $row->user->name ?? '-' }}</td>
-                        <td class="border p-2">{{ $row->nik ?? '-' }}</td>
-                        <td class="border p-2">
-                            <span class="px-2 py-1 rounded text-white
+                        <td class="border p-2 text-center">{{ $i + 1 }}</td>
+                        <td class="border p-2 text-center font-medium">{{ $row->user->name ?? '-' }}</td>
+                        <td class="border p-2 text-center font-mono">{{ $row->nik ?? '-' }}</td>
+                        <td class="border p-2 text-center">
+                            <span class="px-2 py-1 rounded text-white text-xs font-semibold
                                 {{ $row->status == 'ekyc_selesai' ? 'bg-green-500' : ($row->status == 'ekyc_ditolak' ? 'bg-red-500' : 'bg-yellow-500') }}">
                                 {{ ucfirst(str_replace('_', ' ', $row->status ?? 'belum')) }}
                             </span>
                         </td>
-                        <td class="border p-2">{{ $row->updated_at->format('d M Y H:i') }}</td>
+                        <td class="border p-2 text-center">{{ $row->updated_at->format('d M Y H:i') }}</td>
                         <td class="border p-2 text-center">
-                            <a href="{{ route('admin.ekyc.show', $row->id) }}" class="text-blue-600 hover:underline">Detail</a>
+                            <a href="{{ route('admin.ekyc.show', $row->id) }}" class="text-blue-600 hover:underline font-semibold">Detail</a>
                         </td>
                     </tr>
                 @empty

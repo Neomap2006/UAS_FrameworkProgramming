@@ -56,9 +56,9 @@
                         <thead class="bg-gray-200 text-gray-700">
                             <tr>
                                 <th class="px-4 py-2 w-16 text-center">No</th>
-                                <th class="px-4 py-2">Nama</th>
-                                <th class="px-4 py-2">NIM</th>
-                                <th class="px-4 py-2">Kelas</th>
+                                <th class="px-4 py-2 text-center">Nama</th>
+                                <th class="px-4 py-2 text-center">NIM</th>
+                                <th class="px-4 py-2 text-center">Kelas</th>
                                 <th class="px-4 py-2 w-40 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -66,9 +66,9 @@
                             @foreach($data as $mhs)
                                 <tr>
                                     <td class="border px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                                    <td class="border px-4 py-2 font-medium">{{ $mhs->nama }}</td>
-                                    <td class="border px-4 py-2">{{ $mhs->nim }}</td>
-                                    <td class="border px-4 py-2">{{ $mhs->kelas->nama_kelas ?? '-' }}</td>
+                                    <td class="border px-4 py-2 text-center font-medium">{{ $mhs->nama }}</td>
+                                    <td class="border px-4 py-2 text-center">{{ $mhs->nim }}</td>
+                                    <td class="border px-4 py-2 text-center">{{ $mhs->kelas->nama_kelas ?? '-' }}</td>
                                     <td class="border px-4 py-3 text-center">
                                         <div class="flex items-center justify-center gap-2">
                                             {{-- Button Trigger Modal Edit --}}

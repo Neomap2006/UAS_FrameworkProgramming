@@ -35,8 +35,8 @@
                             <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold">
                                 <tr>
                                     <th class="px-4 py-3 w-16 text-center">Pos</th>
-                                    <th class="px-4 py-3">Label</th>
-                                    <th class="px-4 py-3">URL</th>
+                                    <th class="px-4 py-3 text-center">Label</th>
+                                    <th class="px-4 py-3 text-center">URL</th>
                                     <th class="px-4 py-3 text-center w-28">Status</th>
                                     <th class="px-4 py-3 text-center w-44">Aksi</th>
                                 </tr>
@@ -46,8 +46,8 @@
                                 @foreach($links as $item)
                                     <tr class="hover:bg-slate-50/75 transition-colors">
                                         <td class="px-4 py-3 text-center font-semibold text-slate-700">{{ $item->position }}</td>
-                                        <td class="px-4 py-3 font-semibold text-slate-900">{{ $item->label }}</td>
-                                        <td class="px-4 py-3 font-mono text-xs text-slate-600">{{ $item->url }}</td>
+                                        <td class="px-4 py-3 text-center font-semibold text-slate-900">{{ $item->label }}</td>
+                                        <td class="px-4 py-3 text-center font-mono text-xs text-slate-600">{{ $item->url }}</td>
 
                                         <td class="px-4 py-3 text-center">
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold {{ $item->status ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200' }}">

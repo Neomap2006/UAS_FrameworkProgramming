@@ -52,9 +52,9 @@
                         <thead class="bg-gray-200 text-gray-700">
                             <tr>
                                 <th class="px-4 py-2 w-16 text-center">No</th>
-                                <th class="px-4 py-2">Kode</th>
-                                <th class="px-4 py-2">Nama</th>
-                                <th class="px-4 py-2">Kapasitas</th>
+                                <th class="px-4 py-2 text-center">Kode</th>
+                                <th class="px-4 py-2 text-center">Nama</th>
+                                <th class="px-4 py-2 text-center">Kapasitas</th>
                                 <th class="px-4 py-2 w-40 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -62,9 +62,9 @@
                             @foreach($data as $item)
                                 <tr>
                                     <td class="border px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                                    <td class="border px-4 py-2 font-mono font-semibold text-blue-600">{{ $item->kode }}</td>
-                                    <td class="border px-4 py-2">{{ $item->nama }}</td>
-                                    <td class="border px-4 py-2">{{ $item->kapasitas }}</td>
+                                    <td class="border px-4 py-2 text-center font-mono font-semibold text-blue-600">{{ $item->kode }}</td>
+                                    <td class="border px-4 py-2 text-center">{{ $item->nama }}</td>
+                                    <td class="border px-4 py-2 text-center">{{ $item->kapasitas }}</td>
                                     <td class="border px-4 py-3 text-center">
                                         <div class="flex items-center justify-center gap-2">
                                             {{-- Trigger Modal Edit --}}

@@ -36,8 +36,8 @@
                             <table class="table-auto w-full text-left">
                                 <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold">
                                     <tr>
-                                        <th class="px-4 py-3">Key</th>
-                                        <th class="px-4 py-3">Value</th>
+                                        <th class="px-4 py-3 text-center">Key</th>
+                                        <th class="px-4 py-3 text-center">Value</th>
                                         <th class="px-4 py-3 w-28 text-center">Type</th>
                                         <th class="px-4 py-3 w-28 text-center">Status</th>
                                         <th class="px-4 py-3 w-28 text-center">Aksi</th>
@@ -47,9 +47,9 @@
                                 <tbody class="divide-y divide-slate-100 bg-white text-slate-700 text-sm">
                                     @foreach($settings as $setting)
                                         <tr class="hover:bg-slate-50/75 transition-colors">
-                                            <td class="px-4 py-3 font-semibold text-slate-900">{{ $setting->key }}</td>
+                                            <td class="px-4 py-3 text-center font-semibold text-slate-900">{{ $setting->key }}</td>
 
-                                            <td class="px-4 py-3 text-slate-600">
+                                            <td class="px-4 py-3 text-center text-slate-600">
                                                 @if($setting->type === 'image' || $setting->key === 'hero_image')
                                                     <img src="{{ str_contains($setting->value, 'uploads/') ? asset($setting->value) : asset('storage/' . $setting->value) }}" class="h-14 rounded-lg shadow-xs border border-slate-200">
                                                 @elseif($setting->type === 'json')

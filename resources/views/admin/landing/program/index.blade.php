@@ -34,7 +34,7 @@
                             <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold">
                                 <tr>
                                     <th class="px-4 py-3 text-center w-28">Gambar</th>
-                                    <th class="px-4 py-3">Title</th>
+                                    <th class="px-4 py-3 text-center">Title</th>
                                     <th class="px-4 py-3 text-center w-24">Icon</th>
                                     <th class="px-4 py-3 text-center w-16">Pos</th>
                                     <th class="px-4 py-3 text-center w-28">Status</th>
@@ -51,7 +51,7 @@
                                                 <span class="text-slate-400 text-xs">-</span>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-3 font-semibold text-slate-900">{{ $program->title }}</td>
+                                        <td class="px-4 py-3 text-center font-semibold text-slate-900">{{ $program->title }}</td>
                                         <td class="px-4 py-3 text-center">
                                             @if($program->icon)
                                                 <img src="{{ str_starts_with($program->icon, 'uploads/') ? asset($program->icon) : asset('storage/' . $program->icon) }}"

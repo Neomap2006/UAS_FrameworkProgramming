@@ -82,7 +82,7 @@
                         {{-- GROUP 2: VERIFIKASI PMB --}}
                         <div>
                             <div class="px-3 mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
-                                Pendaftaran & eKYC
+                                Pendaftaran & E-KYC
                             </div>
 
                             <div class="space-y-1">
@@ -90,7 +90,7 @@
                                    class="flex items-center justify-between px-3 py-2.5 rounded-lg transition-all duration-150 {{ request()->routeIs('admin.ekyc.*') ? 'bg-blue-600 text-white font-semibold shadow-xs' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600 font-medium' }}">
                                     <div class="flex items-center gap-3">
                                         <span class="text-lg">✅</span>
-                                        <span>eKYC Mahasiswa</span>
+                                        <span>E-KYC Mahasiswa</span>
                                     </div>
                                     @php
                                         $pendingCount = \App\Models\EkycRegistration::where('status', 'submitted')->count();
