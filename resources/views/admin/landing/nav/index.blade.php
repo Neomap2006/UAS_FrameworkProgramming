@@ -43,12 +43,12 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody class="text-white">
                             @foreach($items as $item)
                                 <tr>
-                                    <td class="border px-4 py-2 text-center">{{ $item->position }}</td>
-                                    <td class="border px-4 py-2">{{ $item->label }}</td>
-                                    <td class="border px-4 py-2">{{ $item->url }}</td>
+                                    <td class="border px-4 py-2 text-center text-white">{{ $item->position }}</td>
+                                    <td class="border px-4 py-2 text-white">{{ $item->label }}</td>
+                                    <td class="border px-4 py-2 text-white">{{ $item->url }}</td>
 
                                     <td class="border px-4 py-2 text-center">
                                         <span class="px-2 py-1 rounded text-white {{ $item->status ? 'bg-green-600' : 'bg-red-600' }}">

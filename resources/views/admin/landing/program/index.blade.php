@@ -40,18 +40,18 @@
                                 <th class="px-4 py-2 text-center w-40">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-white">
                             @foreach($programs as $program)
                                 <tr>
-                                    <td class="border px-4 py-2 text-center">
+                                    <td class="border px-4 py-2 text-center text-white">
                                         @if($program->image)
                                             <img src="{{ str_starts_with($program->image, 'uploads/') ? asset($program->image) : asset('storage/'.$program->image) }}" class="h-12 mx-auto rounded">
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td class="border px-4 py-2">{{ $program->title }}</td>
-                                    <td class="border px-4 py-2 text-center">
+                                    <td class="border px-4 py-2 text-white">{{ $program->title }}</td>
+                                    <td class="border px-4 py-2 text-center text-white">
                                         @if($program->icon)
                                             <img src="{{ str_starts_with($program->icon, 'uploads/') ? asset($program->icon) : asset('storage/' . $program->icon) }}"
                                                  class="h-12 mx-auto rounded shadow" alt="Icon {{ $program->title }}">
@@ -59,7 +59,7 @@
                                             <span class="text-gray-400">-</span>
                                         @endif
                                     </td>
-                                    <td class="border px-4 py-2 text-center">{{ $program->position }}</td>
+                                    <td class="border px-4 py-2 text-center text-white">{{ $program->position }}</td>
 
                                     <td class="border px-4 py-2 text-center">
                                         <span class="px-2 py-1 rounded text-white {{ $program->status ? 'bg-green-600' : 'bg-red-600' }}">

@@ -43,16 +43,16 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody class="text-white">
                                 @foreach($settings as $setting)
                                     <tr class="border-t">
-                                        <td class="px-3 py-2 font-medium">{{ $setting->key }}</td>
+                                        <td class="px-3 py-2 font-medium text-white">{{ $setting->key }}</td>
 
-                                        <td class="px-3 py-2">
+                                        <td class="px-3 py-2 text-white">
                                             @if($setting->type === 'image' || $setting->key === 'hero_image')
                                                 <img src="{{ str_contains($setting->value, 'uploads/') ? asset($setting->value) : asset('storage/' . $setting->value) }}" class="h-16 rounded shadow">
                                             @elseif($setting->type === 'json')
-                                                <pre class="bg-gray-100 p-2 rounded text-xs">
+                                                <pre class="bg-gray-100 p-2 rounded text-xs text-gray-800">
                                                     {{ json_encode(json_decode($setting->value, true), JSON_PRETTY_PRINT) }}
                                                 </pre>
                                             @else
@@ -60,7 +60,7 @@
                                             @endif
                                         </td>
 
-                                        <td class="px-3 py-2 capitalize">{{ $setting->type }}</td>
+                                        <td class="px-3 py-2 capitalize text-white">{{ $setting->type }}</td>
 
                                         <td class="px-3 py-2">
                                             <span class="{{ $setting->status ? 'text-green-600' : 'text-gray-500' }}">
