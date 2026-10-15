@@ -2,8 +2,40 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'LP3I College') }} - Portal Akademik</title>
+    @php
+        $pageTitle = $title ?? null;
+        if (!$pageTitle) {
+            if (request()->routeIs('dashboard')) {
+                $pageTitle = 'Dashboard';
+            } elseif (request()->routeIs('mahasiswa.*')) {
+                $pageTitle = 'Mahasiswa';
+            } elseif (request()->routeIs('ruangan.*')) {
+                $pageTitle = 'Ruangan';
+            } elseif (request()->routeIs('matkul.*')) {
+                $pageTitle = 'Mata Kuliah';
+            } elseif (request()->routeIs('dosen.*')) {
+                $pageTitle = 'Dosen';
+            } elseif (request()->routeIs('admin.ekyc.*') || request()->routeIs('ekyc.*')) {
+                $pageTitle = 'E-KYC Mahasiswa';
+            } elseif (request()->routeIs('admin.landing.settings.*')) {
+                $pageTitle = 'Pengaturan Hero';
+            } elseif (request()->routeIs('admin.landing.navigation.*')) {
+                $pageTitle = 'Navigasi Menu';
+            } elseif (request()->routeIs('admin.landing.programs.*')) {
+                $pageTitle = 'Program Studi';
+            } elseif (request()->routeIs('admin.landing.footer.*')) {
+                $pageTitle = 'Footer Links';
+            } elseif (request()->routeIs('admin.landing.tentang.*')) {
+                $pageTitle = 'Tentang Kampus';
+            } elseif (request()->routeIs('profile.*')) {
+                $pageTitle = 'Profil Pengguna';
+            } else {
+                $pageTitle = 'Portal Akademik';
+            }
+        }
+    @endphp
+    <title>{{ $pageTitle }} - Portal Akademik & E-KYC</title>
+    <link rel="icon" type="image/png" href="{{ asset('image/landing/logo.png') }}">
 
     <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.bunny.net">

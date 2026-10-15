@@ -5,8 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'LP3I College') }} - Portal</title>
-        <link rel="icon" type="image/png" href="{{ file_exists(public_path('image/landing/logo.png')) ? asset('image/landing/logo.png') : asset('storage/image/landing/logo.png') }}">
+        @php
+            $guestTitle = $title ?? null;
+            if (!$guestTitle) {
+                if (request()->routeIs('register*')) {
+                    $guestTitle = 'Pendaftaran Akun';
+                } elseif (request()->routeIs('password.*')) {
+                    $guestTitle = 'Reset Password';
+                } else {
+                    $guestTitle = 'Login';
+                }
+            }
+        @endphp
+        <title>{{ $guestTitle }} - Portal Akademik & E-KYC</title>
+        <link rel="icon" type="image/png" href="{{ asset('image/landing/logo.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
