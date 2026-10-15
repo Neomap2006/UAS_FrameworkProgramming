@@ -24,23 +24,6 @@
          }">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- Alert Notifikasi --}}
-            @if(session('success'))
-                <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-3 shadow-xs">
-                    <span class="text-xl">✅</span>
-                    <span class="text-sm font-semibold">{{ session('success') }}</span>
-                </div>
-            @endif
-
-            @if($errors->any())
-                <div class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm shadow-xs">
-                    <ul class="list-disc pl-5 space-y-1 font-medium">
-                        @foreach($errors->all() as $err)
-                            <li>{{ $err }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
             {{-- Form Tambah Dosen --}}
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">

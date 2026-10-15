@@ -186,20 +186,42 @@
             <main class="flex-1 p-6 lg:p-8 bg-slate-50 overflow-x-hidden">
                 {{-- Flash Message Success --}}
                 @if (session('success'))
-                    <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-xs">
+                    <div x-data="{ show: true }" x-show="show" class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-xs transition-all">
                         <div class="flex items-center gap-3">
                             <span class="text-xl">✅</span>
                             <span class="font-medium text-sm">{{ session('success') }}</span>
                         </div>
+                        <button type="button" @click="show = false" class="text-emerald-600 hover:text-emerald-800 text-xl font-bold p-1 rounded-lg hover:bg-emerald-100/50 cursor-pointer" title="Tutup">&times;</button>
                     </div>
                 @endif
 
                 {{-- Flash Message Error --}}
                 @if (session('error'))
-                    <div class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between shadow-xs">
+                    <div x-data="{ show: true }" x-show="show" class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between shadow-xs transition-all">
                         <div class="flex items-center gap-3">
                             <span class="text-xl">⚠️</span>
                             <span class="font-medium text-sm">{{ session('error') }}</span>
+                        </div>
+                        <button type="button" @click="show = false" class="text-rose-600 hover:text-rose-800 text-xl font-bold p-1 rounded-lg hover:bg-rose-100/50 cursor-pointer" title="Tutup">&times;</button>
+                    </div>
+                @endif
+
+                {{-- Validation Errors --}}
+                @if ($errors->any())
+                    <div x-data="{ show: true }" x-show="show" class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 shadow-xs transition-all">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-3">
+                                <span class="text-xl">⚠️</span>
+                                <div>
+                                    <h4 class="font-semibold text-sm mb-1">Terjadi kesalahan input:</h4>
+                                    <ul class="list-disc pl-5 space-y-0.5 text-xs font-medium">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="button" @click="show = false" class="text-rose-600 hover:text-rose-800 text-xl font-bold p-1 rounded-lg hover:bg-rose-100/50 cursor-pointer" title="Tutup">&times;</button>
                         </div>
                     </div>
                 @endif
