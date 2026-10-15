@@ -30,12 +30,10 @@ class MahasiswaController extends Controller
         return redirect()->back()->with('success','Data mahasiswa berhasil ditambahkan!');
     }
 
-      // ✅ Edit
+    // ✅ Edit (Redirect ke index karena menggunakan Modal Edit)
     public function edit($id)
     {
-        $mhs = Mahasiswa::findOrFail($id);
-        $kelas = Kelas::all();
-        return view('mahasiswa.edit', compact('mhs','kelas'));
+        return redirect()->route('mahasiswa.index');
     }
 
       // ✅ Update

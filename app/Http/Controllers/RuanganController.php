@@ -27,8 +27,7 @@ class RuanganController extends Controller
 
     public function edit($id)
     {
-        $ruangan = Ruangan::findOrFail($id);
-        return view('ruangan.edit', compact('ruangan'));
+        return redirect()->route('ruangan.index');
     }
 
     public function update(Request $request, $id)

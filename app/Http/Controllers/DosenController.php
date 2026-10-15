@@ -47,8 +47,7 @@ class DosenController extends Controller
      */
     public function edit($id)
     {
-        $dosen = Dosen::findOrFail($id);
-        return view('dosen.edit', compact('dosen'));
+        return redirect()->route('dosen.index');
     }
 
     /**
